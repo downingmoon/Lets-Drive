@@ -5,6 +5,7 @@ ktlint = "12.1.2"
 kotlin = "2.1.0"
 mysql = "9.2.0"
 jackson = "2.18.2"
+thumbnailator = "0.4.20"
 
 [libraries.spring-boot-starter-data-jpa]
 module = "org.springframework.boot:spring-boot-starter-data-jpa"
@@ -56,6 +57,10 @@ version.ref = "jackson"
 [libraries.mysql-connector-j]
 module = "com.mysql:mysql-connector-j"
 version.ref = "mysql"
+
+[libraries.thumbnailator]
+module = "net.coobird:thumbnailator"
+version.ref = "thumbnailator"
 
 [plugins]
 spring-boot = {id = "org.springframework.boot", version.ref = "spring-boot"}
