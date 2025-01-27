@@ -8,15 +8,31 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       hibernate:
         show_sql: true
         format_sql: true
         use_sql_comments: true
         dialect: org.hibernate.dialect.MySQLDialect
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 logging:
   level:
     org:
       hibernate:
         SQL: debug
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "env,beans"
+file:
+  max-size: ${FILE_MAX_SIZE}
+  image-extensions: ${FILE_IMAGE_EXT}
+  uncompressed-extensions: ${FILE_UNCOMPRESSED_EXT}
+  allowed-extensions: ${FILE_ALLOWED_EXT}
+  upload-root: ${FILE_UPLOAD_PATH}
