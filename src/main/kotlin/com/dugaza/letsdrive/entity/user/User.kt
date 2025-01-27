@@ -11,37 +11,33 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(
+    name = "user",
     uniqueConstraints = [
-        UniqueConstraint(columnNames = ["provider", "providerId"])
-    ]
+        UniqueConstraint(columnNames = ["provider", "providerId"]),
+    ],
 )
 class User(
     @Column(nullable = false, unique = true)
     val email: String,
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     val provider: AuthProvider,
-
     @Column(nullable = false)
     val providerId: String,
-
     @Column(nullable = true)
-    var name: String? = null,
-
+    var nickName: String? = null,
     @Column(nullable = true)
     var phoneNumber: String? = null,
-
     // role도 추가해야함
 //    @Column(nullable = true)
 //    var profileImageUrl: String? = null
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     var status: UserStatus = UserStatus.ACTIVE,
 
-    var lastLoginAt : LocalDateTime? = null
-): BaseEntity() {
+    @Column(nullable = true)
+    var lastLoginAt: LocalDateTime? = null,
+) : BaseEntity() {
     fun login() {
         lastLoginAt = LocalDateTime.now()
         if (status == UserStatus.DORMANT) {
@@ -50,7 +46,7 @@ class User(
     }
 
     fun changeName(newName: String) {
-        name = newName
+        nickName = newName
     }
 
     fun toDormant() {
