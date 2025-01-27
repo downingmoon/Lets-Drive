@@ -1,5 +1,7 @@
 package com.dugaza.letsdrive.exception
 
+import com.dugaza.letsdrive.dto.ErrorResponse
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -8,16 +10,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException::class)
     fun handleBusinessException(e: BusinessException): ResponseEntity<ErrorResponse> {
-        val errorCode = e.errorCode
+        val httpStatus = e.httpStatus
         val body = ErrorResponse(
-            code = errorCode.code,
-            message = errorCode.message
+            code = httpStatus.value(),
+            message = e.message
         )
-        return ResponseEntity.status(errorCode.status).body(body)
+        return ResponseEntity.status(httpStatus).body(body)
     }
 }
-
-data class ErrorResponse(
-    val code: String,
-    val message: String
-)

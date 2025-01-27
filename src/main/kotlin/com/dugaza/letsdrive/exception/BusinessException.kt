@@ -1,6 +1,12 @@
 package com.dugaza.letsdrive.exception
 
+import com.dugaza.letsdrive.util.MessageConverter
+
+
 class BusinessException(
-    val errorCode: ErrorCode
-): RuntimeException(errorCode.message) {
+    errorCode: ErrorCode
+): RuntimeException() {
+    override var message: String = MessageConverter.getMessage(errorCode.code)
+    var httpStatus = errorCode.status
+
 }
