@@ -1,18 +1,17 @@
 package com.dugaza.letsdrive.entity.file
 
 import com.dugaza.letsdrive.entity.base.BaseEntity
-import com.dugaza.letsdrive.entity.user.User
-import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.Table
+import jakarta.persistence.*
+import java.util.*
 
 @Entity
-@Table
+@Table(
+    name = "file_master",
+    indexes = [
+        Index(name = "idx_file_master_user_id", columnList = "user_id"),
+    ],
+)
 class FileMaster(
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    val user: User
-) : BaseEntity() {
-}
+    @Column(name = "user_id", nullable = false)
+    val userId: UUID,
+) : BaseEntity()
