@@ -1,7 +1,13 @@
 package com.dugaza.letsdrive.entity.file
 
 import com.dugaza.letsdrive.entity.base.BaseEntity
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Index
+import jakarta.persistence.Table
+import jakarta.persistence.ManyToOne
+import jakarta.persistence.FetchType
+import jakarta.persistence.JoinColumn
 
 @Entity
 @Table(

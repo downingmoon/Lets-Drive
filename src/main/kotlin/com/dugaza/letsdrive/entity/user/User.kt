@@ -2,7 +2,15 @@ package com.dugaza.letsdrive.entity.user
 
 import com.dugaza.letsdrive.entity.base.BaseEntity
 import com.dugaza.letsdrive.entity.file.FileMaster
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Table
+import jakarta.persistence.OneToOne
+import jakarta.persistence.FetchType
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.UniqueConstraint
+import jakarta.persistence.Enumerated
+import jakarta.persistence.EnumType
 import java.time.LocalDateTime
 
 @Entity
