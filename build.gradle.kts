@@ -52,7 +52,7 @@ tasks.withType<KotlinCompile>().configureEach {
     compilerOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget.set(JvmTarget.JVM_21)
-        }
+    }
 }
 
 tasks.withType<Test> {
