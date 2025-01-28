@@ -39,6 +39,11 @@ out/
 ### Kotlin ###
 .kotlin
 
+### macOS ###
+.DS_Store
+.AppleDouble
+.LSOverride
+
 .env
 
 /uploads
