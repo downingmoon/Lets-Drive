@@ -2,7 +2,7 @@
 spring-boot = "3.4.2"
 spring-dependency-management = "1.1.7"
 ktlint = "12.1.2"
-kotlin = "2.1.0"
+kotlin = "2.0.21"
 mysql = "9.2.0"
 jackson = "2.18.2"
 thumbnailator = "0.4.20"

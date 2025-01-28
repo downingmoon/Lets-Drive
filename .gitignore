@@ -45,3 +45,5 @@ out/
 .LSOverride
 
 .env
+
+/uploads
