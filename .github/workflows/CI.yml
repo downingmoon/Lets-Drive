@@ -13,37 +13,25 @@ jobs:
     runs-on: ubuntu-22.04
     env:
       spring.profiles.active: ${{ secrets.SPRING_PROFILES_ACTIVE }}
-      spring.datasource.url: ${{ secrets.SPRING_DATASOURCE_URL }}
-      spring.datasource.username: ${{ secrets.MYSQL_USER }}
-      spring.datasource.password: ${{ secrets.MYSQL_PASSWORD }}
       file.max-size: ${{ secrets.FILE_MAX_SIZE }}
       file.image-extensions: ${{ secrets.FILE_IMAGE_EXT }}
       file.uncompressed-extensions: ${{ secrets.FILE_UNCOMPRESSED_EXT }}
       file.allowed-extensions: ${{ secrets.FILE_ALLOWED_EXT }}
       file.upload-root: ${{ secrets.FILE_UPLOAD_PATH }}
-      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-      MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
-      MYSQL_USER: ${{ secrets.MYSQL_USER }}
-      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-
-
-    services:
-      db:
-        image: mysql:8.0
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
-          MYSQL_DATABASE: $MYSQL_DATABASE
-          MYSQL_USER: $MYSQL_USER
-          MYSQL_PASSWORD: $MYSQL_PASSWORD
-        options: >-
-          --health-cmd="mysqladmin ping --silent"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
 
     steps:
+      - uses: samin/mysql-action@v1
+        with:
+          host port: 3800
+          container port: 3307
+          character set server: 'utf8'
+          collation server: 'utf8_general_ci'
+          mysql version: '8.0'
+          mysql database: 'testdb'
+          mysql root password: ${{ secrets.RootPassword }}
+          mysql user: 'developer'
+          mysql password: ${{ secrets.DatabasePassword }}
+
       - name: Checkout repository
         uses: actions/checkout@v3
 

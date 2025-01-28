@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${MYSQL_USER}
-    password: ${MYSQL_PASSWORD}
+    url: jdbc:mysql://localhost:3800/testdb
+    username: developer
+    password: emrkwk0128!
   jpa:
     hibernate:
       ddl-auto: update
