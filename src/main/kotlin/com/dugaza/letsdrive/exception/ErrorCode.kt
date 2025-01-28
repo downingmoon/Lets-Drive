@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus
 
 enum class ErrorCode(
     val status: HttpStatus,
-    val code: String
+    val code: String,
 ) {
     // File Error
     FILE_SIZE_TOO_LARGE(HttpStatus.BAD_REQUEST, "FILE_001"),
@@ -17,4 +17,10 @@ enum class ErrorCode(
 
     // User Error
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "USER_001"),
+
+    // System Error
+    INVALID_ERROR_CODE(HttpStatus.BAD_REQUEST, "SYSTEM_001"),
+
+    // For test
+    FOO(HttpStatus.INTERNAL_SERVER_ERROR, "FOO_001"),
 }

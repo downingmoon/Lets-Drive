@@ -8,12 +8,10 @@ import java.util.*
 
 @Configuration
 class LocaleConfig {
-
     @Bean
     fun localeResolver(): LocaleResolver {
         val resolver = AcceptHeaderLocaleResolver()
         resolver.setDefaultLocale(Locale.KOREAN)
         return resolver
     }
-
 }
