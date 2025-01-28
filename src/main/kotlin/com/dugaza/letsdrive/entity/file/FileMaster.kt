@@ -14,5 +14,5 @@ import jakarta.persistence.*
 class FileMaster(
     @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "user_id", nullable = false)
-    val userId: User,
+    val user: User,
 ) : BaseEntity()
