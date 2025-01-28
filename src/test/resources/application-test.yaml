@@ -21,3 +21,9 @@ logging:
     org:
       hibernate:
         SQL: debug
+file:
+  max-size: 3145728
+  image-extensions: jpg,bmp
+  uncompressed-extensions: bmp
+  allowed-extensions: mp4
+  upload-root: file

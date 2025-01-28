@@ -36,11 +36,6 @@ jobs:
       DB_NAME: ${{ secrets.MYSQL_DATABASE }}
       DB_USER: ${{ secrets.MYSQL_USER }}
       DB_PASS: ${{ secrets.MYSQL_PASSWORD }}
-      FILE_MAX_SIZE: ${{ secrets.FILE_MAX_SIZE }}
-      FILE_IMAGE_EXT: ${{ secrets.FILE_IMAGE_EXT }}
-      FILE_UNCOMPRESSED_EXT: ${{ secrets.FILE_UNCOMPRESSED_EXT }}
-      FILE_ALLOWED_EXT: ${{ secrets.FILE_ALLOWED_EXT }}
-      FILE_UPLOAD_PATH: ${{ secrets.FILE_UPLOAD_PATH }}
 
     steps:
       - name: Checkout repository
