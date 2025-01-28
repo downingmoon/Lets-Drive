@@ -3,30 +3,51 @@ name: CI
 on:
   push:
     branches:
-      - "**"
+      - main
   pull_request:
-  merge_group:
+    branches:
+      - main
 
 jobs:
   build:
-
     runs-on: ubuntu-22.04
 
-    strategy:
-      matrix:
-        java-version: [21]
+    services:
+      db:
+        image: mysql:8.0
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+          MYSQL_USER: ${{ secrets.MYSQL_USER }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -P 3306 -u ${{ secrets.MYSQL_USER }} -p${{ secrets.MYSQL_PASSWORD }} --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      SPRING_PROFILES_ACTIVE: ${{ secrets.SPRING_PROFILES_ACTIVE }}
+      SPRING_DATASOURCE_URL: ${{ secrets.SPRING_DATASOURCE_URL }}
+      SPRING_DATASOURCE_USERNAME: ${{ secrets.MYSQL_USER }}
+      SPRING_DATASOURCE_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
 
     steps:
+      # 1. 저장소 체크아웃
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up JDK ${{ matrix.java-version }}
+      # 2. JDK 21 설정
+      - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: ${{ matrix.java-version }}
+          java-version: 21
           cache: gradle
 
+      # 3. Gradle 캐시 설정
       - name: Cache Gradle packages
         uses: actions/cache@v3
         with:
@@ -37,15 +58,28 @@ jobs:
           restore-keys: |
             gradle-${{ runner.os }}-
 
+      # 4. Gradle 래퍼 실행 권한 부여
       - name: Grant execute permission for Gradle wrapper
         run: chmod +x gradlew
 
+      # 5. 데이터베이스 준비 확인
+      - name: Wait for DB
+        run: |
+          for i in {1..30}; do
+            mysqladmin ping -h localhost -P 3306 -u ${{ secrets.MYSQL_USER }} -p${{ secrets.MYSQL_PASSWORD }} --silent && break
+            echo "Waiting for database to be ready..."
+            sleep 2
+          done
+
+      # 6. 프로젝트 빌드
       - name: Build with Gradle
         run: ./gradlew build --no-daemon
 
+      # 7. 테스트 실행
       - name: Run tests
         run: ./gradlew test --no-daemon
 
+      # 8. (선택 사항) 테스트 결과 업로드
       - name: Upload Test Results
         if: always()
         uses: actions/upload-artifact@v3
@@ -53,6 +87,7 @@ jobs:
           name: test-results
           path: build/test-results/
 
+      # 9. (선택 사항) 빌드 아티팩트 업로드
       - name: Upload Build Artifacts
         if: success()
         uses: actions/upload-artifact@v3
