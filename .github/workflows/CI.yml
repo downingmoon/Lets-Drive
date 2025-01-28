@@ -12,10 +12,10 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     env:
-      SPRING_PROFILES_ACTIVE: ${{ secrets.SPRING_PROFILES_ACTIVE }}
-      SPRING_DATASOURCE_URL: ${{ secrets.SPRING_DATASOURCE_URL }}
-      SPRING_DATASOURCE_USERNAME: ${{ secrets.MYSQL_USER }}
-      SPRING_DATASOURCE_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      spring.profiles.active: ${{ secrets.SPRING_PROFILES_ACTIVE }}
+      spring.datasource.url: ${{ secrets.SPRING_DATASOURCE_URL }}
+      spring.datasource.username: ${{ secrets.MYSQL_USER }}
+      spring.datasource.password: ${{ secrets.MYSQL_PASSWORD }}
       MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
       MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
       MYSQL_USER: ${{ secrets.MYSQL_USER }}
