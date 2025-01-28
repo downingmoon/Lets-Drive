@@ -65,19 +65,6 @@ jobs:
       - name: Grant execute permission for Gradle wrapper
         run: chmod +x gradlew
 
-      # 5. 데이터베이스 준비 확인
-      - name: Wait for DB
-        run: |
-          for i in {1..30}; do
-            mysqladmin ping -h localhost -P 3306 -u $MYSQL_USER -p$MYSQL_PASSWORD --silent && break
-            echo "Waiting for database to be ready..."
-            sleep 2
-          done
-          if ! mysqladmin ping -h localhost -P 3306 -u $MYSQL_USER -p$MYSQL_PASSWORD --silent; then
-            echo "Database did not become ready in time."
-            exit 1
-          fi
-
       # 6. 프로젝트 빌드
       - name: Build with Gradle
         run: ./gradlew build --no-daemon
