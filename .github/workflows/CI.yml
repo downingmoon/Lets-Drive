@@ -17,10 +17,10 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
-          MYSQL_USER: ${{ secrets.MYSQL_USER }}
-          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          MYSQL_ROOT_PASSWORD: root1234
+          MYSQL_DATABASE: testdb
+          MYSQL_USER: testuser
+          MYSQL_PASSWORD: 1234
         ports:
           - 3306:3306
         options: >-
@@ -33,9 +33,9 @@ jobs:
       SPRING_PROFILES_ACTIVE: test
       DB_URL: localhost
       DB_PORT: 3306
-      DB_NAME: ${{ secrets.MYSQL_DATABASE }}
-      DB_USER: ${{ secrets.MYSQL_USER }}
-      DB_PASS: ${{ secrets.MYSQL_PASSWORD }}
+      DB_NAME: testdb
+      DB_USER: testuser
+      DB_PASS: 1234
 
     steps:
       - name: Checkout repository
