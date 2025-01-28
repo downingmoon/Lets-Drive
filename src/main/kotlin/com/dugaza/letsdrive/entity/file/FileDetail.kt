@@ -3,7 +3,10 @@ package com.dugaza.letsdrive.entity.file
 import com.dugaza.letsdrive.entity.base.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
 import jakarta.persistence.Index
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import java.util.UUID
 
@@ -16,8 +19,9 @@ import java.util.UUID
     ],
 )
 class FileDetail(
-    @Column(name = "file_master_id", nullable = false)
-    val fileMasterId: UUID,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "file_master_id", nullable = false)
+    val fileMaster: FileMaster,
     @Column(nullable = false)
     val originalName: String,
     @Column(nullable = false)
