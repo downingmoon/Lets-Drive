@@ -2,9 +2,11 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - "**"
   pull_request:
-    branches: [ main ]
+    branches:
+      - "**"
 
 jobs:
   build:
@@ -28,38 +30,79 @@ jobs:
           --health-retries=3
 
     env:
-      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/${{ secrets.MYSQL_DATABASE }}
-      SPRING_DATASOURCE_USERNAME: ${{ secrets.MYSQL_USER }}
-      SPRING_DATASOURCE_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      SPRING_PROFILES_ACTIVE: test
+      DB_URL: localhost
+      DB_PORT: 3306
+      DB_NAME: ${{ secrets.MYSQL_DATABASE }}
+      DB_USER: ${{ secrets.MYSQL_USER }}
+      DB_PASS: ${{ secrets.MYSQL_PASSWORD }}
+      FILE_MAX_SIZE: ${{ secrets.FILE_MAX_SIZE }}
+      FILE_IMAGE_EXT: ${{ secrets.FILE_IMAGE_EXT }}
+      FILE_UNCOMPRESSED_EXT: ${{ secrets.FILE_UNCOMPRESSED_EXT }}
+      FILE_ALLOWED_EXT: ${{ secrets.FILE_ALLOWED_EXT }}
+      FILE_UPLOAD_PATH: ${{ secrets.FILE_UPLOAD_PATH }}
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up JDK 21
-      uses: actions/setup-java@v3
-      with:
-        distribution: temurin
-        java-version: '21'
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
 
-    - name: Cache Gradle dependencies
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper/
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper/
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
-    - name: Wait for MySQL to be ready
-      run: |
-        for i in {1..30}; do
-          nc -z localhost 3306 && echo "MySQL is up" && exit 0
-          echo "Waiting for MySQL..."
-          sleep 2
-        done
-        echo "MySQL did not start in time" && exit 1
+      - name: Cache Gradle Build Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/build-cache
+          key: ${{ runner.os }}-gradle-build-cache
+          restore-keys: |
+            ${{ runner.os }}-gradle-build-cache
 
-    - name: Build with Gradle
-      run: ./gradlew build --no-daemon
+      - name: Wait for MySQL to be ready
+        run: |
+          for i in {1..30}; do
+            nc -z localhost 3306 && echo "MySQL is up" && exit 0
+            echo "Waiting for MySQL..."
+            sleep 2
+          done
+          echo "MySQL did not start in time" && exit 1
+
+      - name: Run Flyway Migrations
+        run: ./gradlew flywayMigrate
+
+      - name: Run Tests with Coverage
+        run: ./gradlew test jacocoTestReport --no-daemon
+
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: build/test-results/test
+
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: build/reports/jacoco/test/html
+
+      - name: Build with Gradle
+        run: ./gradlew build --no-daemon
+
+      - name: Upload Build Logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: build/logs/

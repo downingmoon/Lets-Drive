@@ -1,20 +1,23 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
   datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: jdbc:mysql://${DB_URL}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASS}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
     show-sql: true
     properties:
       hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
         dialect: org.hibernate.dialect.MySQLDialect
-
-file:
-  max-size: 3145728
-  image-extensions: jpg,bmp
-  uncompressed-extensions: bmp
-  allowed-extensions: mp4
-  upload-root: file
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
