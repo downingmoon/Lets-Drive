@@ -1,5 +1,6 @@
 package com.dugaza.letsdrive.exception
 
+import com.dugaza.letsdrive.dto.ErrorResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -12,13 +13,8 @@ class GlobalExceptionHandler {
         val body =
             ErrorResponse(
                 code = errorCode.code,
-                message = errorCode.message,
+                message = e.message!!,
             )
         return ResponseEntity.status(errorCode.status).body(body)
     }
 }
-
-data class ErrorResponse(
-    val code: String,
-    val message: String,
-)

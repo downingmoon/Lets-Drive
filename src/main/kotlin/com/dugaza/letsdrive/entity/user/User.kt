@@ -46,7 +46,6 @@ class User(
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     var status: UserStatus = UserStatus.ACTIVE,
-
     @Column(nullable = true)
     var lastLoginAt: LocalDateTime? = null,
 ) : BaseEntity() {
