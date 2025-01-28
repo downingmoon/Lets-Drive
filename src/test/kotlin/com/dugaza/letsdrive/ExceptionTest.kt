@@ -5,8 +5,8 @@ import com.dugaza.letsdrive.exception.ErrorCode
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.boot.test.context.SpringBootTest
-import kotlin.test.assertEquals
 import org.springframework.test.context.ActiveProfiles
+import kotlin.test.assertEquals
 
 @SpringBootTest
 @ActiveProfiles("test")
