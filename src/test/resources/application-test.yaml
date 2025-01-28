@@ -8,7 +8,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: none # CI에서 validate시 오류 발생 (테이블이 없어서)
     show-sql: true
     properties:
       hibernate:
@@ -23,7 +23,7 @@ logging:
         SQL: debug
 file:
   max-size: 3145728
-  image-extensions: jpg,bmp
+  image-extensions: jpg,bmp # ,는 github secret 반영 x
   uncompressed-extensions: bmp
   allowed-extensions: mp4
   upload-root: file

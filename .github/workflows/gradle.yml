@@ -74,14 +74,25 @@ jobs:
           done
           echo "MySQL did not start in time" && exit 1
 
+      # flyway 도입 ?
+
+      - name: Run ktlint
+        run: ./gradlew ktlintCheck
+
+#      - name: Run detekt
+#        run: ./gradlew detekt
+
+      - name: Build with Gradle
+        run: ./gradlew build --no-daemon
+
       - name: Run Tests with Coverage
         run: ./gradlew test jacocoTestReport --no-daemon
 
-      - name: Upload Test Results
+      - name: Upload Test Report
         uses: actions/upload-artifact@v4
         with:
-          name: test-results
-          path: build/test-results/test
+          name: test-report
+          path: build/reports/tests/test/index.html
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4
@@ -89,8 +100,6 @@ jobs:
           name: coverage-report
           path: build/reports/jacoco/test/html
 
-      - name: Build with Gradle
-        run: ./gradlew build --no-daemon
 
       - name: Upload Build Logs
         if: failure()
