@@ -6,5 +6,6 @@ import java.util.UUID
 
 interface FileDetailRepository : JpaRepository<FileDetail, UUID> {
     fun findByFileMasterId(fileMasterId: UUID): List<FileDetail>
+
     fun findByFileHash(fileHash: String): FileDetail?
 }
