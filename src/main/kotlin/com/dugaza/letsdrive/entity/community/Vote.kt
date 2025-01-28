@@ -9,6 +9,5 @@ import jakarta.persistence.Table
 @Table(name = "community_vote")
 class Vote(
     @Column(nullable = false, length = 255)
-    var title: String
-) : BaseEntity() {
-}
+    var title: String,
+) : BaseEntity()

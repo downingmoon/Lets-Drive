@@ -1,8 +1,7 @@
 package com.dugaza.letsdrive.repository
 
 import com.dugaza.letsdrive.entity.user.User
-import java.util.UUID
 import org.springframework.data.jpa.repository.JpaRepository
+import java.util.UUID
 
-interface UserRepository: JpaRepository<User, UUID> {
-}
+interface UserRepository : JpaRepository<User, UUID>

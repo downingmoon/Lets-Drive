@@ -69,20 +69,21 @@ class FileService(
         val existing = fileDetailRepository.findByFileHash(fileHash)
 
         if (existing != null) {
-            val newFileDetail = FileDetail(
-                fileMaster = fileMaster,
-                originalName = originalName,
-                storedName = existing.storedName,
-                storedPath = existing.storedPath,
-                originalSize = existing.originalSize,
-                storedSize = existing.storedSize,
-                originalExtension = existing.originalExtension,
-                storedExtension = existing.storedExtension,
-                mimeType = existing.mimeType,
-                fileHash = existing.fileHash,
-                thumbnailPath = existing.thumbnailPath,
-                compressed = existing.compressed,
-            )
+            val newFileDetail =
+                FileDetail(
+                    fileMaster = fileMaster,
+                    originalName = originalName,
+                    storedName = existing.storedName,
+                    storedPath = existing.storedPath,
+                    originalSize = existing.originalSize,
+                    storedSize = existing.storedSize,
+                    originalExtension = existing.originalExtension,
+                    storedExtension = existing.storedExtension,
+                    mimeType = existing.mimeType,
+                    fileHash = existing.fileHash,
+                    thumbnailPath = existing.thumbnailPath,
+                    compressed = existing.compressed,
+                )
             return newFileDetail
         } else {
             var thumbnailPath: String? = null

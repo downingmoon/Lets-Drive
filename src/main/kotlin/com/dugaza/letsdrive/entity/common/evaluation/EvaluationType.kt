@@ -1,4 +1,3 @@
 package com.dugaza.letsdrive.entity.common.evaluation
 
-enum class EvaluationType {
-}
+enum class EvaluationType
