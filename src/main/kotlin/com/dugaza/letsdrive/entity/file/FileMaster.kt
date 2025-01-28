@@ -2,7 +2,7 @@ package com.dugaza.letsdrive.entity.file
 
 import com.dugaza.letsdrive.entity.base.BaseEntity
 import com.dugaza.letsdrive.entity.user.User
-import jakarta.persistence.Column
+import jakarta.persistence.JoinColumn
 import jakarta.persistence.Entity
 import jakarta.persistence.Index
 import jakarta.persistence.Table
