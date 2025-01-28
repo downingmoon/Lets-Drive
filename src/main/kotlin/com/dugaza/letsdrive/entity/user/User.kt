@@ -23,15 +23,20 @@ import java.time.LocalDateTime
 class User(
     @Column(nullable = false, unique = true)
     val email: String,
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     val provider: AuthProvider,
+
     @Column(nullable = false)
     val providerId: String,
+
     @Column(nullable = true)
-    var nickName: String? = null,
+    var nickname: String? = null,
+
     @Column(nullable = true)
     var phoneNumber: String? = null,
+
     // role도 추가해야함
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_image_id", nullable = true)
@@ -40,7 +45,6 @@ class User(
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     var status: UserStatus = UserStatus.ACTIVE,
-
     @Column(nullable = true)
     var lastLoginAt: LocalDateTime? = null,
 ) : BaseEntity() {
@@ -52,7 +56,7 @@ class User(
     }
 
     fun changeName(newName: String) {
-        nickName = newName
+        nickname = newName
     }
 
     fun toDormant() {
