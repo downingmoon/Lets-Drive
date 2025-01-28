@@ -18,6 +18,9 @@ enum class ErrorCode(
     // User Error
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "USER_001"),
 
+    // Board Error
+    BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "BOARD_001"),
+
     // System Error
     INVALID_ERROR_CODE(HttpStatus.BAD_REQUEST, "SYSTEM_001"),
 
