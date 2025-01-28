@@ -39,7 +39,6 @@ jobs:
           --health-retries=5
 
     steps:
-      # 1. 저장소 체크아웃
       - name: Checkout repository
         uses: actions/checkout@v3
 
