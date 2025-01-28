@@ -16,7 +16,6 @@ import java.util.UUID
     name = "common_like",
     indexes = [
         Index(name = "idx_common_like_target_id", columnList = "target_id"),
-        Index(name = "idx_common_like_user_id", columnList = "user_id"),
     ]
 )
 class Like(

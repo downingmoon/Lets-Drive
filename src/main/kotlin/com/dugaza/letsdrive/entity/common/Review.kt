@@ -19,9 +19,6 @@ import java.util.UUID
     name = "common_review",
     indexes = [
         Index(name = "idx_common_review_target_id", columnList = "target_id"),
-        Index(name = "idx_common_review_user_id", columnList = "user_id"),
-        Index(name = "idx_common_review_evaluation_id", columnList = "evaluation_id"),
-        Index(name = "idx_common_review_file_id", columnList = "file_id"),
     ],
 )
 class Review(
@@ -36,7 +33,7 @@ class Review(
     @JoinColumn(name = "evaluation_id", nullable = false)
     val evaluation: Evaluation,
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "file_id", nullable = true)
     var file: FileMaster,
 

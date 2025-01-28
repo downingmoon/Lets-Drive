@@ -11,14 +11,14 @@ import jakarta.persistence.OneToOne
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.FetchType
 import jakarta.persistence.JoinColumn
+import jakarta.persistence.Enumerated
+import jakarta.persistence.EnumType
 
 @Entity
 @Table(
     name = "community_board",
     indexes = [
         Index(name = "idx_community_board_user_id", columnList = "user_id"),
-        Index(name = "idx_community_board_file_id", columnList = "file_id"),
-        Index(name = "idx_community_board_vote_id", columnList = "vote_id"),
     ]
 )
 class Board(
@@ -26,18 +26,17 @@ class Board(
     @JoinColumn(name = "user_id", nullable = false)
     val user: User,
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "file_id", nullable = false)
     var file: FileMaster,
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vote_id", nullable = true)
     val vote: Vote?,
 
-    // TODO: Enum 생성 후 변경
-    // @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    val boardType: String,
+    val boardType: BoardType,
 
     @Column(nullable = false)
     var title: String,

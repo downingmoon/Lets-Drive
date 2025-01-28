@@ -9,14 +9,15 @@ import jakarta.persistence.Table
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.FetchType
 import jakarta.persistence.JoinColumn
-import java.util.*
+import jakarta.persistence.Enumerated
+import jakarta.persistence.EnumType
+import java.util.UUID
 
 @Entity
 @Table(
     name = "common_report",
     indexes = [
         Index(name = "idx_common_review_target_id", columnList = "target_id"),
-        Index(name = "idx_common_review_user_id", columnList = "user_id"),
     ]
 )
 class Report(
@@ -27,10 +28,9 @@ class Report(
     @JoinColumn(name = "user_id", nullable = false)
     val user: User,
 
-    // TODO: Enum 작성 후 변경
-    // @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     @Column(name = "report_reason_code", nullable = false)
-    val reasonCode: String,
+    val reasonCode: ReasonCode,
 
     @Column(name = "report_reason", nullable = false)
     val reason: String

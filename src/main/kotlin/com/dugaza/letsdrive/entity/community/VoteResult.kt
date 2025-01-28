@@ -10,13 +10,7 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 
 @Entity
-@Table(
-    name = "community_vote_result",
-    indexes = [
-        Index(name = "idx_community_vote_result_option_id", columnList = "option_id"),
-        Index(name = "idx_community_vote_user_id", columnList = "user_id"),
-    ],
-)
+@Table(name = "community_vote_result")
 class VoteResult(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "option_id", nullable = false)
