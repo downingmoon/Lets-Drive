@@ -3,8 +3,8 @@ package com.dugaza.letsdrive.controller
 import com.dugaza.letsdrive.dto.file.FileDetailDto
 import com.dugaza.letsdrive.dto.file.UploadResponse
 import com.dugaza.letsdrive.service.FileService
-import java.nio.charset.StandardCharsets
 import org.springframework.core.io.ByteArrayResource
+import org.springframework.http.ContentDisposition
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
+import java.nio.charset.StandardCharsets
 import java.util.UUID
-import org.springframework.http.ContentDisposition
 
 @RestController
 @RequestMapping("/api/files")
@@ -45,9 +45,10 @@ class FileController(
         val resource = ByteArrayResource(fileBytes)
         val contentLength = fileBytes.size.toLong()
 
-        val contentDisposition = ContentDisposition.builder("attachment")
-            .filename(fileName, StandardCharsets.UTF_8)
-            .build()
+        val contentDisposition =
+            ContentDisposition.builder("attachment")
+                .filename(fileName, StandardCharsets.UTF_8)
+                .build()
 
         return ResponseEntity.ok()
             .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString())

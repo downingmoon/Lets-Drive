@@ -1,4 +1,4 @@
-package com.dugaza.letsdrive.entity.common.evaluation;
+package com.dugaza.letsdrive.entity.common.evaluation
 
 import com.dugaza.letsdrive.entity.base.BaseEntity
 import jakarta.persistence.Column
@@ -14,8 +14,6 @@ class EvaluationAnswer(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id", nullable = false)
     val question: EvaluationQuestion,
-
     @Column(nullable = false)
-    val answer: String
-) : BaseEntity() {
-}
+    val answer: String,
+) : BaseEntity()
