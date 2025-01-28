@@ -6,14 +6,19 @@ import jakarta.persistence.*
 import java.util.UUID
 
 @Entity
-@Table(name = "common_like")
+@Table(
+    name = "common_like",
+    indexes = [
+        Index(name = "idx_common_like_target_id", columnList = "target_id"),
+        Index(name = "idx_common_like_user_id", columnList = "user_id"),
+    ]
+)
 class Like(
-    // MEMO: Board만 특정?
     @Column(name = "target_id", nullable = false)
     val target: UUID,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     val user: User,
 ) : BaseEntity() {
 }

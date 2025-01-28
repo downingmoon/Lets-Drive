@@ -8,7 +8,15 @@ import jakarta.persistence.*
 import java.util.*
 
 @Entity
-@Table(name = "common_review")
+@Table(
+    name = "common_review",
+    indexes = [
+        Index(name = "idx_common_review_target_id", columnList = "target_id"),
+        Index(name = "idx_common_review_user_id", columnList = "user_id"),
+        Index(name = "idx_common_review_evaluation_id", columnList = "evaluation_id"),
+        Index(name = "idx_common_review_file_id", columnList = "file_id"),
+    ],
+)
 class Review(
     @Column(name = "target_id", nullable = false)
     val target: UUID,
@@ -25,13 +33,13 @@ class Review(
     @JoinColumn(name = "file_id", nullable = true)
     var file: FileMaster,
 
-    @Column(nullable = true)
-    var score: Double,
+    @Column(nullable = false)
+    var score: Double = 0.0,
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     var content: String,
 
-    @Column(nullable = true)
-    var isDisplayed: Boolean
+    @Column(nullable = false)
+    var isDisplayed: Boolean = false
 ) : BaseEntity() {
 }

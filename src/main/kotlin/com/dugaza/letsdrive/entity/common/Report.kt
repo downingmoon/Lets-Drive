@@ -6,7 +6,13 @@ import jakarta.persistence.*
 import java.util.*
 
 @Entity
-@Table(name = "common_report")
+@Table(
+    name = "common_report",
+    indexes = [
+        Index(name = "idx_common_review_target_id", columnList = "target_id"),
+        Index(name = "idx_common_review_user_id", columnList = "user_id"),
+    ]
+)
 class Report(
     @Column(name = "target_id", nullable = false)
     val target: UUID,

@@ -1,8 +1,8 @@
 package com.dugaza.letsdrive.entity.file
 
 import com.dugaza.letsdrive.entity.base.BaseEntity
+import com.dugaza.letsdrive.entity.user.User
 import jakarta.persistence.*
-import java.util.*
 
 @Entity
 @Table(
@@ -12,6 +12,7 @@ import java.util.*
     ],
 )
 class FileMaster(
+    @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "user_id", nullable = false)
-    val userId: UUID,
+    val userId: User,
 ) : BaseEntity()

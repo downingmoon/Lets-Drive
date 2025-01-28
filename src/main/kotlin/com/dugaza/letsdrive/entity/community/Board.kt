@@ -6,7 +6,14 @@ import com.dugaza.letsdrive.entity.user.User
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "community_board")
+@Table(
+    name = "community_board",
+    indexes = [
+        Index(name = "idx_community_board_user_id", columnList = "user_id"),
+        Index(name = "idx_community_board_file_id", columnList = "file_id"),
+        Index(name = "idx_community_board_vote_id", columnList = "vote_id"),
+    ]
+)
 class Board(
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
@@ -18,7 +25,7 @@ class Board(
 
     @OneToOne
     @JoinColumn(name = "vote_id", nullable = true)
-    val vote: Vote,
+    val vote: Vote?,
 
     // TODO: Enum 생성 후 변경
     // @Enumerated(EnumType.STRING)
@@ -31,11 +38,11 @@ class Board(
     @Column(nullable = false)
     var content: String,
 
-    @Column(nullable = true)
-    var views: Long,
+    @Column(nullable = false)
+    var views: Long = 0L,
 
-    @Column(nullable = true)
-    var isDisplayed: Boolean,
+    @Column(nullable = false)
+    var isDisplayed: Boolean = false,
 ) : BaseEntity() {
     fun changeTitle(newTitle: String) {
         title = newTitle
