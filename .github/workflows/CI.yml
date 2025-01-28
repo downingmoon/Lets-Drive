@@ -16,6 +16,11 @@ jobs:
       spring.datasource.url: ${{ secrets.SPRING_DATASOURCE_URL }}
       spring.datasource.username: ${{ secrets.MYSQL_USER }}
       spring.datasource.password: ${{ secrets.MYSQL_PASSWORD }}
+      file.max-size: ${{ secrets.FILE_MAX_SIZE }}
+      file.image-extensions: ${{ secrets.FILE_IMAGE_EXT }}
+      file.uncompressed-extensions: ${{ secrets.FILE_UNCOMPRESSED_EXT }}
+      file.allowed-extensions: ${{ secrets.FILE_ALLOWED_EXT }}
+      file.upload-root: ${{ secrets.FILE_UPLOAD_PATH }}
       MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
       MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
       MYSQL_USER: ${{ secrets.MYSQL_USER }}
