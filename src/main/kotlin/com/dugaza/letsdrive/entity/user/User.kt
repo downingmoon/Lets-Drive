@@ -4,13 +4,13 @@ import com.dugaza.letsdrive.entity.base.BaseEntity
 import com.dugaza.letsdrive.entity.file.FileMaster
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
-import jakarta.persistence.EnumType
-import jakarta.persistence.Enumerated
+import jakarta.persistence.Table
+import jakarta.persistence.OneToOne
 import jakarta.persistence.FetchType
 import jakarta.persistence.JoinColumn
-import jakarta.persistence.OneToOne
-import jakarta.persistence.Table
 import jakarta.persistence.UniqueConstraint
+import jakarta.persistence.Enumerated
+import jakarta.persistence.EnumType
 import java.time.LocalDateTime
 
 @Entity
@@ -38,7 +38,6 @@ class User(
     var phoneNumber: String? = null,
 
     // role도 추가해야함
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_image_id", nullable = true)
     var profileImage: FileMaster? = null,
