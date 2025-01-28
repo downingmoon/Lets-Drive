@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus
 enum class ErrorCode(
     val status: HttpStatus,
     val code: String,
-    val message: String
+    val message: String,
 ) {
     // File Error
     FILE_SIZE_TOO_LARGE(HttpStatus.BAD_REQUEST, "FILE_001", "File size is too large"),

@@ -1,6 +1,5 @@
 package com.dugaza.letsdrive.exception
 
 class BusinessException(
-    val errorCode: ErrorCode
-): RuntimeException(errorCode.message) {
-}
+    val errorCode: ErrorCode,
+) : RuntimeException(errorCode.message)

@@ -9,15 +9,16 @@ class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException::class)
     fun handleBusinessException(e: BusinessException): ResponseEntity<ErrorResponse> {
         val errorCode = e.errorCode
-        val body = ErrorResponse(
-            code = errorCode.code,
-            message = errorCode.message
-        )
+        val body =
+            ErrorResponse(
+                code = errorCode.code,
+                message = errorCode.message,
+            )
         return ResponseEntity.status(errorCode.status).body(body)
     }
 }
 
 data class ErrorResponse(
     val code: String,
-    val message: String
+    val message: String,
 )
