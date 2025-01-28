@@ -13,7 +13,7 @@ import java.time.LocalDateTime
 @Table(
     name = "user",
     uniqueConstraints = [
-        UniqueConstraint(columnNames = ["provider", "providerId"]),
+        UniqueConstraint(columnNames = ["provider", "provider_id"]),
     ],
 )
 class User(
