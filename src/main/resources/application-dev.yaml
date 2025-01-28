@@ -30,9 +30,3 @@ management:
       exposure:
         include: "*"
         exclude: "env,beans"
-file:
-  max-size: ${FILE_MAX_SIZE}
-  image-extensions: ${FILE_IMAGE_EXT}
-  uncompressed-extensions: ${FILE_UNCOMPRESSED_EXT}
-  allowed-extensions: ${FILE_ALLOWED_EXT}
-  upload-root: ${FILE_UPLOAD_PATH}
