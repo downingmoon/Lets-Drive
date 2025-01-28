@@ -17,7 +17,7 @@ class Report(
     @Column(name = "target_id", nullable = false)
     val target: UUID,
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     val user: User,
 

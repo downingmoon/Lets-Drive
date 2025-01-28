@@ -11,7 +11,7 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = "common_evaluation_question")
 class EvaluationQuestion(
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "evaluation_id", nullable = false)
     val evaluation: Evaluation,
 

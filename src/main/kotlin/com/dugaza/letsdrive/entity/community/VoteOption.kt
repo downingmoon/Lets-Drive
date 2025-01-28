@@ -11,7 +11,7 @@ import jakarta.persistence.*
     ]
 )
 class VoteOption(
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vote_id", nullable = false)
     val vote: Vote,
 
