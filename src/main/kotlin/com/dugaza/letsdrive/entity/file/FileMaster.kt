@@ -1,9 +1,13 @@
 package com.dugaza.letsdrive.entity.file
 
 import com.dugaza.letsdrive.entity.base.BaseEntity
+import com.dugaza.letsdrive.entity.user.User
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
 import jakarta.persistence.Index
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import java.util.UUID
 
@@ -15,6 +19,7 @@ import java.util.UUID
     ],
 )
 class FileMaster(
-    @Column(name = "user_id", nullable = false)
-    val userId: UUID,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    val user: User,
 ) : BaseEntity()
