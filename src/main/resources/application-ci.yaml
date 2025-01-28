@@ -1,5 +1,4 @@
 spring:
-  profiles: ci
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${MYSQL_USER}
