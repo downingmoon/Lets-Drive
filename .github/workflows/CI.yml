@@ -46,7 +46,6 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-
       - name: Cache Gradle dependencies
         uses: actions/cache@v4
         with:
@@ -56,14 +55,6 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-
-      - name: Cache Gradle Build Cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.gradle/build-cache
-          key: ${{ runner.os }}-gradle-build-cache
-          restore-keys: |
-            ${{ runner.os }}-gradle-build-cache
 
       - name: Wait for MySQL to be ready
         run: |
