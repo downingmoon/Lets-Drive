@@ -14,8 +14,6 @@ class EvaluationQuestion(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "evaluation_id", nullable = false)
     val evaluation: Evaluation,
-
     @Column(nullable = false)
-    val question: String
-) : BaseEntity() {
-}
+    val question: String,
+) : BaseEntity()
