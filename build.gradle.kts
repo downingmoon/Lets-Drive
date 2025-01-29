@@ -40,6 +40,7 @@ dependencies {
 
     testImplementation(libs.kotlin.test)
     testImplementation(libs.spring.boot.starter.test)
+    testImplementation(libs.mockk)
 }
 
 allOpen {

@@ -1,4 +1,4 @@
-package com.dugaza.letsdrive.util
+package com.dugaza.letsdrive.converter
 
 import com.dugaza.letsdrive.exception.ErrorCode
 import org.springframework.context.NoSuchMessageException
