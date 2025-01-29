@@ -1,6 +1,6 @@
 package com.dugaza.letsdrive.exception
 
-import com.dugaza.letsdrive.util.MessageConverter
+import com.dugaza.letsdrive.converter.MessageConverter
 
 class BusinessException(
     val errorCode: ErrorCode,
