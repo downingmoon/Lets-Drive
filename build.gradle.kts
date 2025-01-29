@@ -38,9 +38,12 @@ dependencies {
     runtimeOnly(libs.mysql.connector.j)
     developmentOnly(libs.spring.boot.devtools)
 
-    testImplementation(libs.kotlin.test)
+    testImplementation(libs.kotlin.test.junit5)
     testImplementation(libs.spring.boot.starter.test)
     testImplementation(libs.mockk)
+    testImplementation(libs.junit.jupiter.api)
+    testImplementation(libs.junit.jupiter.engine)
+    testImplementation(libs.assertj.core)
 }
 
 allOpen {
