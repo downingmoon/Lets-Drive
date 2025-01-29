@@ -1,14 +1,10 @@
-package com.dugaza.letsdrive
+package com.dugaza.letsdrive.exception
 
-import com.dugaza.letsdrive.exception.BusinessException
-import com.dugaza.letsdrive.exception.ErrorCode
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import kotlin.test.assertEquals
 
-@SpringBootTest
 @ActiveProfiles("test")
 class ExceptionTest {
     @Test
