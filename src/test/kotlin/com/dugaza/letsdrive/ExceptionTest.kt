@@ -5,9 +5,11 @@ import com.dugaza.letsdrive.exception.ErrorCode
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 import kotlin.test.assertEquals
 
 @SpringBootTest
+@ActiveProfiles("test")
 class ExceptionTest {
     @Test
     fun `공통 예외처리 응답 테스트`() {

@@ -28,6 +28,7 @@ class Board(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     val user: User,
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "file_id", nullable = true)
     var file: FileMaster?,
@@ -37,12 +38,16 @@ class Board(
     @Convert(converter = BoardTypeConverter::class)
     @Column(nullable = false)
     val boardType: BoardType,
+
     @Column(nullable = false)
     var title: String,
+
     @Column(nullable = false)
     var content: String,
+
     @Column(nullable = false)
     var views: Long = 0L,
+
     @Column(nullable = false)
     var isDisplayed: Boolean = false,
 ) : BaseEntity() {

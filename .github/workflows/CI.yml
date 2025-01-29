@@ -1,0 +1,107 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-22.04
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root1234
+          MYSQL_DATABASE: testdb
+          MYSQL_USER: testuser
+          MYSQL_PASSWORD: 1234
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    env:
+      SPRING_PROFILES_ACTIVE: test
+      DB_URL: localhost
+      DB_PORT: 3306
+      DB_NAME: testdb
+      DB_USER: testuser
+      DB_PASS: 1234
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper/
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Cache Gradle Build Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/build-cache
+          key: ${{ runner.os }}-gradle-build-cache
+          restore-keys: |
+            ${{ runner.os }}-gradle-build-cache
+
+      - name: Wait for MySQL to be ready
+        run: |
+          for i in {1..30}; do
+            nc -z localhost 3306 && echo "MySQL is up" && exit 0
+            echo "Waiting for MySQL..."
+            sleep 2
+          done
+          echo "MySQL did not start in time" && exit 1
+
+      # flyway 도입 ?
+
+      - name: Run ktlint
+        run: ./gradlew ktlintCheck
+
+      # detekt 도입 ?
+
+      - name: Build with Gradle
+        run: ./gradlew build --no-daemon
+
+      - name: Run Tests with Coverage
+        run: ./gradlew test jacocoTestReport --no-daemon
+
+      - name: Upload Test Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: build/reports/tests/test
+
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: build/reports/jacoco/test/html
+
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact
+          path: build/libs/
