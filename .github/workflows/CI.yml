@@ -5,8 +5,7 @@ on:
     branches:
       - "**"
   pull_request:
-    branches:
-      - "**"
+  merge_group:
 
 jobs:
   build:
@@ -73,6 +72,9 @@ jobs:
             sleep 2
           done
           echo "MySQL did not start in time" && exit 1
+
+      - name: Verify deleted tests are not present
+        run: ls -lRs src/test/kotlin/com/dugaza/letsdrive/
 
       # flyway 도입 ?
 
