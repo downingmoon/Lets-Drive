@@ -9,5 +9,4 @@ class ValidationTestVo(
     val id: UUID,
     @field:NotBlank(message = "{FILE_002}")
     val title: String,
-) {
-}
+)

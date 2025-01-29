@@ -11,7 +11,7 @@ import kotlin.test.assertContains
 @SpringBootTest
 @ActiveProfiles("test")
 class ValidationTest(
-    @Autowired val validator: Validator
+    @Autowired val validator: Validator,
 ) {
     @Test
     fun `Spring Validation 다국어 메시지 테스트`() {
