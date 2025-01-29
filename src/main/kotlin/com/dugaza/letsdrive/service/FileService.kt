@@ -5,8 +5,8 @@ import com.dugaza.letsdrive.entity.file.FileDetail
 import com.dugaza.letsdrive.entity.file.FileMaster
 import com.dugaza.letsdrive.exception.BusinessException
 import com.dugaza.letsdrive.exception.ErrorCode
-import com.dugaza.letsdrive.repository.FileDetailRepository
-import com.dugaza.letsdrive.repository.FileMasterRepository
+import com.dugaza.letsdrive.repository.file.FileDetailRepository
+import com.dugaza.letsdrive.repository.file.FileMasterRepository
 import net.coobird.thumbnailator.Thumbnailator
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

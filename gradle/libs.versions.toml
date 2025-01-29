@@ -6,6 +6,7 @@ kotlin = "2.0.21"
 mysql = "9.2.0"
 jackson = "2.18.2"
 thumbnailator = "0.4.20"
+querydsl = "5.0.0"
 
 [libraries.spring-boot-starter-data-jpa]
 module = "org.springframework.boot:spring-boot-starter-data-jpa"
@@ -62,10 +63,20 @@ version.ref = "mysql"
 module = "net.coobird:thumbnailator"
 version.ref = "thumbnailator"
 
+[libraries.querydsl-jpa]
+module = "com.querydsl:querydsl-jpa"
+version.ref = "querydsl"
+
+[libraries.querydsl-apt]
+module = "com.querydsl:querydsl-apt"
+version.ref = "querydsl"
+
+
 [plugins]
 spring-boot = {id = "org.springframework.boot", version.ref = "spring-boot"}
 spring-dependency-management = {id = "io.spring.dependency-management", version.ref = "spring-dependency-management"}
 ktlint = {id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint"}
+kapt = {id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin"}
 kotlin-jvm = {id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin"}
 kotlin-jpa = {id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlin"}
 kotlin-spring = {id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin"}

@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.dependency.management)
     alias(libs.plugins.jacoco)
+    alias(libs.plugins.kapt)
 }
 
 group = "com.dugaza"
@@ -30,6 +31,9 @@ dependencies {
 //    implementation(libs.spring.boot.starter.oauth2.client)
 //    implementation(libs.spring.boot.starter.oauth2.resource.server)
     implementation(libs.thumbnailator)
+
+    implementation(variantOf(libs.querydsl.jpa) { classifier("jakarta") })
+    kapt(variantOf(libs.querydsl.apt) { classifier("jakarta") })
 
     runtimeOnly(libs.mysql.connector.j)
     developmentOnly(libs.spring.boot.devtools)
