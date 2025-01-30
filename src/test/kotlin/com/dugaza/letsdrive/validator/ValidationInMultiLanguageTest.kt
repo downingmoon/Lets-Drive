@@ -1,4 +1,4 @@
-package com.dugaza.letsdrive
+package com.dugaza.letsdrive.validator
 
 import jakarta.validation.Validator
 import org.junit.jupiter.api.Test
@@ -10,7 +10,7 @@ import kotlin.test.assertContains
 
 @SpringBootTest
 @ActiveProfiles("test")
-class ValidationTest(
+class ValidationInMultiLanguageTest(
     @Autowired val validator: Validator,
 ) {
     @Test

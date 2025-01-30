@@ -1,4 +1,4 @@
-package com.dugaza.letsdrive
+package com.dugaza.letsdrive.validator
 
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
