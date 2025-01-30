@@ -14,7 +14,7 @@ class ValidationInMultiLanguageTest(
     @Autowired val validator: Validator,
 ) {
     @Test
-    fun `Spring Validation 다국어 메시지 테스트`() {
+    fun `Spring Validation 다국어 응답메시지 테스트`() {
         val vo = ValidationTestVo(UUID.randomUUID(), "")
         val validate = validator.validate(vo)
         val iterator = validate.iterator()
