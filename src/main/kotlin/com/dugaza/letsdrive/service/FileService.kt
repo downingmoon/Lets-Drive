@@ -30,8 +30,8 @@ class FileService(
     private val fileDetailRepository: FileDetailRepository,
     private val fileMasterRepository: FileMasterRepository,
     private val userService: UserService,
-    private val fileProperties: FileProperties,
-) {
+    ) {
+    private val fileProperties: FileProperties = FileProperties()
     private val maxSize = fileProperties.maxSize
     private val imageExt = fileProperties.imageExtensionSet()
     private val uncompressedExt = fileProperties.uncompressedExtensionSet()
