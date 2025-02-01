@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
-class GlobalExceptionHandler(
-    private val messageConverter: MessageConverter,
-) {
+class GlobalExceptionHandler {
     private val log = logger()
 
     @ExceptionHandler(BusinessException::class)
@@ -22,9 +20,9 @@ class GlobalExceptionHandler(
         val body =
             ErrorResponse(
                 code = code,
-                message = messageConverter.getMessage(code),
+                message = e.message!!,
             )
-        log.info("Business exception occurred, error code: {}", errorCode)
+        log.debug("Business exception occurred, error code: {}", errorCode)
         return ResponseEntity.status(errorCode.status).body(body)
     }
 
@@ -41,14 +39,6 @@ class GlobalExceptionHandler(
     @ExceptionHandler(exception = [MismatchedInputException::class, MethodArgumentNotValidException::class])
     fun handleMissingKotlinParameterException(e: Throwable): ResponseEntity<ErrorResponse> {
         // FIXME: 추후 message converter 에 파라미터를 박을수 있게 한 후 원몬 메시지를 보내면 어떨까 싶다.
-        val errorCode = ErrorCode.DEFAULT_VALIDATION_FAILED
-        val code = errorCode.code
-        val body =
-            ErrorResponse(
-                code = code,
-                message = messageConverter.getMessage(code),
-            )
-        log.info("Validate exception occurred, error code: {}, class name: {}", errorCode, e.javaClass.name)
-        return ResponseEntity.status(errorCode.status).body(body)
+        return handleBusinessException(BusinessException(ErrorCode.DEFAULT_VALIDATION_FAILED))
     }
 }
