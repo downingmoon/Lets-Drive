@@ -1,6 +1,5 @@
 package com.dugaza.letsdrive.exception
 
-import com.dugaza.letsdrive.converter.MessageConverter
 import com.dugaza.letsdrive.dto.ErrorResponse
 import com.dugaza.letsdrive.logger
 import com.fasterxml.jackson.databind.exc.MismatchedInputException
