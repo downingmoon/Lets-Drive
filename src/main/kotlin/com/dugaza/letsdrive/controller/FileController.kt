@@ -2,7 +2,9 @@ package com.dugaza.letsdrive.controller
 
 import com.dugaza.letsdrive.dto.file.FileDetailDto
 import com.dugaza.letsdrive.dto.file.UploadResponse
-import com.dugaza.letsdrive.service.FileService
+import com.dugaza.letsdrive.exception.BusinessException
+import com.dugaza.letsdrive.exception.ErrorCode
+import com.dugaza.letsdrive.service.file.FileService
 import org.springframework.core.io.ByteArrayResource
 import org.springframework.http.ContentDisposition
 import org.springframework.http.HttpHeaders
@@ -33,10 +35,15 @@ class FileController(
         return ResponseEntity.ok(response)
     }
 
-    @GetMapping("/{detailId}/download")
+    @GetMapping("/{detailId}/download/{dispositionType}")
     fun downloadFile(
         @PathVariable("detailId") detailId: UUID,
+        @PathVariable("dispositionType") dispositionType: String,
     ): ResponseEntity<ByteArrayResource> {
+        if (dispositionType != "inline" && dispositionType != "attachment") {
+            throw BusinessException(ErrorCode.INVALID_DISPOSITION_TYPE)
+        }
+
         val detail = fileService.getFileDetail(detailId)
         val fileBytes = fileService.downloadFile(detailId)
 
@@ -46,7 +53,7 @@ class FileController(
         val contentLength = fileBytes.size.toLong()
 
         val contentDisposition =
-            ContentDisposition.builder("attachment")
+            ContentDisposition.builder(dispositionType)
                 .filename(fileName, StandardCharsets.UTF_8)
                 .build()
 

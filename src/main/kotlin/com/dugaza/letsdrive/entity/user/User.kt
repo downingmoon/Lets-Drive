@@ -28,17 +28,19 @@ class User(
     val provider: AuthProvider,
     @Column(nullable = false)
     val providerId: String,
-    @Column(nullable = true)
-    var nickname: String? = null,
-    @Column(nullable = true)
-    var phoneNumber: String? = null,
-    // role도 추가해야함
+    @Column(nullable = false)
+    var nickname: String,
+    @Column(nullable = false)
+    var phoneNumber: String,
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_image_id", nullable = true)
     var profileImage: FileMaster? = null,
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     var status: UserStatus = UserStatus.ACTIVE,
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    var role: UserRole = UserRole.USER,
     @Column(nullable = true)
     var lastLoginAt: LocalDateTime? = null,
 ) : BaseEntity() {
