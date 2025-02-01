@@ -40,7 +40,7 @@ class GlobalExceptionHandler(
      */
     @ExceptionHandler(exception = [MismatchedInputException::class, MethodArgumentNotValidException::class])
     fun handleMissingKotlinParameterException(e: Throwable): ResponseEntity<ErrorResponse> {
-        //FIXME: 추후 message converter 에 파라미터를 박을수 있게 한 후 원몬 메시지를 보내면 어떨까 싶다.
+        // FIXME: 추후 message converter 에 파라미터를 박을수 있게 한 후 원몬 메시지를 보내면 어떨까 싶다.
         val errorCode = ErrorCode.DEFAULT_VALIDATION_FAILED
         val code = errorCode.code
         val body =

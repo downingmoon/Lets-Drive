@@ -7,8 +7,6 @@ import jakarta.validation.ConstraintValidator
 import jakarta.validation.ConstraintValidatorContext
 import kotlin.properties.Delegates
 
-
-
 class CustomValidatorEmbodiment {
     class NotNullValidator : ConstraintValidator<CustomValidator.NotNull, String> {
         private val log = logger()
@@ -20,7 +18,10 @@ class CustomValidatorEmbodiment {
             log.debug("# CustomNotBlankValidator initialized, errorCode: {}", errorCode)
         }
 
-        override fun isValid(p0: String?, p1: ConstraintValidatorContext?): Boolean {
+        override fun isValid(
+            p0: String?,
+            p1: ConstraintValidatorContext?,
+        ): Boolean {
             log.debug("Not null validation, p0: {}", p0)
             return (p0 ?: throw BusinessException(this.errorCode)).let { true }
         }
@@ -36,7 +37,10 @@ class CustomValidatorEmbodiment {
             log.debug("# CustomNotBlankValidator initialized, errorCode: {}", errorCode)
         }
 
-        override fun isValid(p0: String?, p1: ConstraintValidatorContext?): Boolean {
+        override fun isValid(
+            p0: String?,
+            p1: ConstraintValidatorContext?,
+        ): Boolean {
             log.debug("Not blank validation, p0: {}", p0)
             return (!p0.isNullOrBlank() || throw BusinessException(this.errorCode)).let { true }
         }
@@ -56,7 +60,10 @@ class CustomValidatorEmbodiment {
             log.debug("# CustomSizeValidator initialized, errorCode: {}, min: {}, max: {}", errorCode, min, max)
         }
 
-        override fun isValid(p0: String?, p1: ConstraintValidatorContext?): Boolean {
+        override fun isValid(
+            p0: String?,
+            p1: ConstraintValidatorContext?,
+        ): Boolean {
             log.debug("Size validation, p0: {}, min: {}, max: {}", p0, min, max)
             p0.takeIf { it != null && it.length in min..max } ?: throw BusinessException(errorCode)
             return true
@@ -75,7 +82,10 @@ class CustomValidatorEmbodiment {
             log.debug("# CustomMinValidator initialized, errorCode: {}, value: {}", errorCode, value)
         }
 
-        override fun isValid(p0: Int?, p1: ConstraintValidatorContext?): Boolean {
+        override fun isValid(
+            p0: Int?,
+            p1: ConstraintValidatorContext?,
+        ): Boolean {
             log.debug("Min validation, p0: {}, value: {}", p0, value)
             p0.takeIf { it != null && it.toLong() >= value } ?: throw BusinessException(errorCode)
             return true
@@ -94,7 +104,10 @@ class CustomValidatorEmbodiment {
             log.debug("# CustomMaxValidator initialized, errorCode: {}, value: {}", errorCode, value)
         }
 
-        override fun isValid(p0: Int?, p1: ConstraintValidatorContext?): Boolean {
+        override fun isValid(
+            p0: Int?,
+            p1: ConstraintValidatorContext?,
+        ): Boolean {
             log.debug("Max validation, p0: {}, value: {}", p0, value)
             p0.takeIf { it != null && it.toLong() <= value } ?: throw BusinessException(errorCode)
             return true
@@ -115,7 +128,10 @@ class CustomValidatorEmbodiment {
             log.debug("# CustomRangeValidator initialized, errorCode: {}, from: {}, to: {}", errorCode, from, to)
         }
 
-        override fun isValid(p0: Int?, p1: ConstraintValidatorContext?): Boolean {
+        override fun isValid(
+            p0: Int?,
+            p1: ConstraintValidatorContext?,
+        ): Boolean {
             log.debug("Range validation, p0: {}, from: {}, to: {}", p0, from, to)
             p0.takeIf { it != null && it in from..to } ?: throw BusinessException(errorCode)
             return true

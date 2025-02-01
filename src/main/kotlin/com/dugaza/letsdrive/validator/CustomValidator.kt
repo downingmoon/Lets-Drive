@@ -14,7 +14,7 @@ class CustomValidator {
         val errorCode: ErrorCode = ErrorCode.DEFAULT_NOT_NULL_MESSAGE,
         val message: String = "",
         val groups: Array<KClass<*>> = [],
-        val payload: Array<KClass<out Payload>> = []
+        val payload: Array<KClass<out Payload>> = [],
     )
 
     @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
@@ -25,7 +25,7 @@ class CustomValidator {
         val errorCode: ErrorCode = ErrorCode.DEFAULT_NOT_BLANK_MESSAGE,
         val message: String = "",
         val groups: Array<KClass<*>> = [],
-        val payload: Array<KClass<out Payload>> = []
+        val payload: Array<KClass<out Payload>> = [],
     )
 
     @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
@@ -38,7 +38,7 @@ class CustomValidator {
         val errorCode: ErrorCode = ErrorCode.DEFAULT_SIZE_MESSAGE,
         val message: String = "",
         val groups: Array<KClass<*>> = [],
-        val payload: Array<KClass<out Payload>> = []
+        val payload: Array<KClass<out Payload>> = [],
     )
 
     @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
@@ -50,7 +50,7 @@ class CustomValidator {
         val errorCode: ErrorCode = ErrorCode.DEFAULT_MIN_MESSAGE,
         val message: String = "",
         val groups: Array<KClass<*>> = [],
-        val payload: Array<KClass<out Payload>> = []
+        val payload: Array<KClass<out Payload>> = [],
     )
 
     @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
@@ -62,7 +62,7 @@ class CustomValidator {
         val errorCode: ErrorCode = ErrorCode.DEFAULT_MAX_MESSAGE,
         val message: String = "",
         val groups: Array<KClass<*>> = [],
-        val payload: Array<KClass<out Payload>> = []
+        val payload: Array<KClass<out Payload>> = [],
     )
 
     @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
@@ -75,6 +75,6 @@ class CustomValidator {
         val errorCode: ErrorCode = ErrorCode.DEFAULT_RANGE_MESSAGE,
         val message: String = "",
         val groups: Array<KClass<*>> = [],
-        val payload: Array<KClass<out Payload>> = []
+        val payload: Array<KClass<out Payload>> = [],
     )
 }
