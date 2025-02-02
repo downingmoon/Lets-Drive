@@ -37,8 +37,7 @@ class CustomOAuth2SuccessHandler(
         request.session.setAttribute("OAUTH_PROVIDER", provider)
         request.session.setAttribute("OAUTH_PROVIDER_ID", userInfo.providerId)
         request.session.setAttribute("OAUTH_EMAIL", userInfo.email)
-        request.session.setAttribute("OAUTH_NICKNAME", userInfo.nickname)
 
-        response.sendRedirect("/api/users/signup")
+        response.sendRedirect("/api/auth/users/signup")
     }
 }

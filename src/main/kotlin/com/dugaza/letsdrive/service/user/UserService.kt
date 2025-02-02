@@ -1,7 +1,6 @@
 package com.dugaza.letsdrive.service.user
 
 import com.dugaza.letsdrive.entity.file.FileMaster
-import com.dugaza.letsdrive.entity.user.AuthProvider
 import com.dugaza.letsdrive.entity.user.User
 import com.dugaza.letsdrive.exception.BusinessException
 import com.dugaza.letsdrive.exception.ErrorCode
@@ -21,22 +20,7 @@ class UserService(
     }
 
     @Transactional
-    fun signup(
-        provider: AuthProvider,
-        providerId: String,
-        email: String,
-        nickname: String,
-        phoneNumber: String,
-    ): User {
-        val user =
-            User(
-                provider = provider,
-                providerId = providerId,
-                email = email,
-                nickname = nickname,
-                phoneNumber = phoneNumber,
-            )
-        user.login()
+    fun createUser(user: User): User {
         return userRepository.save(user)
     }
 
@@ -46,6 +30,6 @@ class UserService(
         fileMaster: FileMaster,
     ) {
         val user = getUserById(userId)
-        user.profileImage = fileMaster
+        user.changeProfileImage(fileMaster)
     }
 }
