@@ -1,29 +1,35 @@
 package com.dugaza.letsdrive.validator
 
-import jakarta.validation.Validator
+import com.dugaza.letsdrive.exception.BusinessException
+import jakarta.validation.ConstraintViolation
+import jakarta.validation.ValidationException
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
+import org.junit.jupiter.api.assertThrows
 import org.springframework.test.context.ActiveProfiles
-import java.util.UUID
-import kotlin.test.assertContains
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
-@SpringBootTest
 @ActiveProfiles("test")
-class ValidationInMultiLanguageTest(
-    @Autowired val validator: Validator,
-) {
+class ValidationInMultiLanguageTest : ValidatorTestBase() {
     @Test
-    fun `Spring Validation 다국어 응답메시지 테스트`() {
-        val vo = ValidationTestVo(UUID.randomUUID(), "")
-        val validate = validator.validate(vo)
-        val iterator = validate.iterator()
-        val messages: ArrayList<String> = ArrayList()
-        while (iterator.hasNext()) {
-            val next = iterator.next()
-            messages.add(next.message)
-            println("message: ${next.message}")
-        }
-        assertContains(messages, ("지원하지 않는 확장자입니다."))
+    fun `Custom NotNull Success`() {
+        val vo = ValidationTestVo("", "this is a test", "abc", 10, 255, 10)
+        val violations: Set<ConstraintViolation<ValidationTestVo>> = validator.validate(vo)
+        assertEquals(0, violations.size)
+    }
+
+    @Test
+    fun `Custom NotBlank Success`() {
+        val vo = ValidationTestVo("", "this is a test", "abc", 10, 255, 10)
+        val violations: Set<ConstraintViolation<ValidationTestVo>> = validator.validate(vo)
+        assertEquals(0, violations.size)
+    }
+
+    @Test
+    fun `Custom NotBlank Fail`() {
+        val vo = ValidationTestVo("", "", "abc", 10, 255, 10)
+        val ex = assertThrows<ValidationException> { validator.validate(vo) }
+        assertTrue(ex.cause is BusinessException)
+        assertEquals("필수 파라미터가 없거나 비어있습니다.", ex.cause!!.message)
     }
 }
