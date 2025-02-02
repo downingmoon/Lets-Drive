@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @ActiveProfiles("test")
-class ValidationInMultiLanguageTest : ValidatorTestBase() {
+class CustomValidatorTest : ValidatorTestBase() {
     @Test
     fun `Custom NotNull Success`() {
         val vo = ValidationTestVo("", "this is a test", "abc", 10, 255, 10)
