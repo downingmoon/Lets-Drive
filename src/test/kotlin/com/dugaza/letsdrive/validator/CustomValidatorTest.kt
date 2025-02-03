@@ -59,7 +59,7 @@ class CustomValidatorTest : ValidatorTestBase() {
         val ex = assertThrows<ValidationException> { validator.validate(vo) }
         val t = ex.cause
         assertTrue(t is BusinessException)
-        assertEquals("{0} 파라미터의 길이는 {1} ~ {2} 사이로 지정 가능합니다.", ex.cause!!.message)
+        assertEquals("size 파라미터의 길이는 1 ~ 10 사이로 지정 가능합니다.", ex.cause!!.message)
         assertEquals(ErrorCode.DEFAULT_SIZE_MESSAGE, t.errorCode)
     }
 
@@ -76,7 +76,7 @@ class CustomValidatorTest : ValidatorTestBase() {
         val ex = assertThrows<ValidationException> { validator.validate(vo) }
         val t = ex.cause
         assertTrue(t is BusinessException)
-        assertEquals("{0} 파라미터의 값은 최소 {1} 이상 지정 가능합니다.", ex.cause!!.message)
+        assertEquals("min 파라미터의 값은 최소 10 이상 지정 가능합니다.", ex.cause!!.message)
         assertEquals(ErrorCode.DEFAULT_MIN_MESSAGE, t.errorCode)
     }
 
@@ -93,7 +93,7 @@ class CustomValidatorTest : ValidatorTestBase() {
         val ex = assertThrows<ValidationException> { validator.validate(vo) }
         val t = ex.cause
         assertTrue(t is BusinessException)
-        assertEquals("{0} 파라미터의 값은 최대 {1} 까지 지정 가능합니다.", ex.cause!!.message)
+        assertEquals("max 파라미터의 값은 최대 255 까지 지정 가능합니다.", ex.cause!!.message)
         assertEquals(ErrorCode.DEFAULT_MAX_MESSAGE, t.errorCode)
     }
 
@@ -110,7 +110,7 @@ class CustomValidatorTest : ValidatorTestBase() {
         val ex = assertThrows<ValidationException> { validator.validate(vo) }
         val t = ex.cause
         assertTrue(t is BusinessException)
-        assertEquals("{0} 파라미터의 범위는 {1} ~ [2] 사이로 지정 가능합니다.", ex.cause!!.message)
+        assertEquals("range 파라미터의 범위는 1 ~ 10 사이로 지정 가능합니다.", ex.cause!!.message)
         assertEquals(ErrorCode.DEFAULT_RANGE_MESSAGE, t.errorCode)
     }
 }
