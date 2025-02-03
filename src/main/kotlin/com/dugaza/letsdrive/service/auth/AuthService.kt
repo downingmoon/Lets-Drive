@@ -5,9 +5,9 @@ import com.dugaza.letsdrive.entity.user.Role
 import com.dugaza.letsdrive.entity.user.User
 import com.dugaza.letsdrive.service.file.FileService
 import com.dugaza.letsdrive.service.user.UserService
+import com.dugaza.letsdrive.util.generateRandomNickname
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.multipart.MultipartFile
 
 @Service
 class AuthService(
@@ -18,30 +18,29 @@ class AuthService(
     fun signup(
         provider: AuthProvider,
         providerId: String,
-        email: String,
-        nickname: String,
-        profileImage: MultipartFile?,
     ): User {
         val user =
             userService.createUser(
                 User(
                     provider = provider,
                     providerId = providerId,
-                    email = email,
-                    nickname = nickname,
+                    nickname = generateRandomNickname(),
                 ),
             )
-        user.addRole(Role.USER)
+        user.addRole(Role.UNVERIFIED_USER)
 
-        val fileMaster =
-            if (profileImage == null || profileImage.isEmpty) {
-                fileService.getDefaultImage(user.id!!)
-            } else {
-                fileService.uploadFile(user.id!!, listOf(profileImage)).first
-            }
+        val fileMaster = fileService.getDefaultImage(user.id!!)
         user.changeProfileImage(fileMaster)
-        user.login()
 
+        return user
+    }
+
+    fun login(
+        provider: AuthProvider,
+        providerId: String,
+    ): User {
+        val user = userService.getUserByProvider(provider, providerId)
+        user.login()
         return user
     }
 }

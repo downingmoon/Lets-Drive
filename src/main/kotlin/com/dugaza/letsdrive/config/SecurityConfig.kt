@@ -1,7 +1,5 @@
 package com.dugaza.letsdrive.config
 
-import com.dugaza.letsdrive.handler.oauth2.CustomOAuth2SuccessHandler
-import com.dugaza.letsdrive.repository.user.UserRepository
 import com.dugaza.letsdrive.service.user.CustomOAuth2UserService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -14,7 +12,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 @EnableWebSecurity
 class SecurityConfig(
     private val customOAuth2UserService: CustomOAuth2UserService,
-    private val userRepository: UserRepository,
 ) {
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
@@ -22,8 +19,7 @@ class SecurityConfig(
             .authorizeHttpRequests { authorize ->
                 authorize
                     .requestMatchers("/", "/api/auth/users/login", "/error").permitAll()
-                    .requestMatchers("/api/auth/users/signup").hasRole("OAUTH2_TEMP")
-                    .requestMatchers("/api/users/random-nickname", "/api/files/default-profile-image").hasAnyRole("USER", "OAUTH2_TEMP")
+                    .requestMatchers("/api/users/random-nickname", "/api/files/default-profile-image").hasAnyRole("USER", "UNVERIFIED_USER")
                     .requestMatchers("/api/admin/**").hasRole("ADMIN")
                     .anyRequest().hasRole("USER")
             }
@@ -34,7 +30,9 @@ class SecurityConfig(
                         userInfo
                             .userService(customOAuth2UserService)
                     }
-                    .successHandler(CustomOAuth2SuccessHandler(userRepository))
+                    .successHandler { _, response, _ ->
+                        response.sendRedirect("/")
+                    }
             }
             .logout { logout ->
                 logout.logoutRequestMatcher(AntPathRequestMatcher("/logout"))

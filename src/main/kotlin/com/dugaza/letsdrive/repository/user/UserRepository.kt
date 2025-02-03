@@ -1,5 +1,6 @@
 package com.dugaza.letsdrive.repository.user
 
+import com.dugaza.letsdrive.entity.user.AuthProvider
 import com.dugaza.letsdrive.entity.user.User
 import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
@@ -9,5 +10,5 @@ interface UserRepository : JpaRepository<User, UUID>, UserCustomRepository {
     fun findUserByEmail(email: String): User?
 
     @EntityGraph(attributePaths = ["roles"])
-    fun findUserByProviderId(providerId: String): User?
+    fun findUserByProviderAndProviderId(provider: AuthProvider, providerId: String): User?
 }

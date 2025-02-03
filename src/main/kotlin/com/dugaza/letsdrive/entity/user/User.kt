@@ -23,8 +23,8 @@ import java.time.LocalDateTime
     ],
 )
 class User(
-    @Column(nullable = false, unique = true)
-    val email: String,
+    @Column(nullable = true, unique = true)
+    val email: String? = null,
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     val provider: AuthProvider,

@@ -6,6 +6,4 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @JsonIgnoreProperties(ignoreUnknown = true)
 class KakaoUserInfo(
     val id: String,
-    @JsonProperty("kakao_account")
-    val kakaoAccount: KakaoAccount,
 )
