@@ -10,5 +10,8 @@ interface UserRepository : JpaRepository<User, UUID>, UserCustomRepository {
     fun findUserByEmail(email: String): User?
 
     @EntityGraph(attributePaths = ["roles"])
-    fun findUserByProviderAndProviderId(provider: AuthProvider, providerId: String): User?
+    fun findUserByProviderAndProviderId(
+        provider: AuthProvider,
+        providerId: String,
+    ): User?
 }
