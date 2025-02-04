@@ -80,7 +80,7 @@ class CustomValidatorEmbodiment {
         ): Boolean {
             log.debug("Size validation, p0: {}, min: {}, max: {}", p0, min, max)
             p0.takeIf { it != null && it.length in min..max }
-                ?: throw BusinessException(errorCode, arrayOf(getAnnotatedFieldName(p1), min, max))
+                ?: throw BusinessException(errorCode, getAnnotatedFieldName(p1), min, max)
             return true
         }
     }
@@ -103,7 +103,7 @@ class CustomValidatorEmbodiment {
         ): Boolean {
             log.debug("Min validation, p0: {}, value: {}", p0, value)
             p0.takeIf { it != null && it.toLong() >= value }
-                ?: throw BusinessException(errorCode, arrayOf(getAnnotatedFieldName(p1), value))
+                ?: throw BusinessException(errorCode, getAnnotatedFieldName(p1), value)
             return true
         }
     }
@@ -126,7 +126,7 @@ class CustomValidatorEmbodiment {
         ): Boolean {
             log.debug("Max validation, p0: {}, value: {}", p0, value)
             p0.takeIf { it != null && it.toLong() <= value }
-                ?: throw BusinessException(errorCode, arrayOf(getAnnotatedFieldName(p1), value))
+                ?: throw BusinessException(errorCode, getAnnotatedFieldName(p1), value)
             return true
         }
     }
@@ -150,7 +150,7 @@ class CustomValidatorEmbodiment {
             p1: ConstraintValidatorContext,
         ): Boolean {
             log.debug("Range validation, p0: {}, from: {}, to: {}", p0, from, to)
-            p0.takeIf { it != null && it in from..to } ?: throw BusinessException(errorCode, arrayOf(getAnnotatedFieldName(p1), from, to))
+            p0.takeIf { it != null && it in from..to } ?: throw BusinessException(errorCode, getAnnotatedFieldName(p1), from, to)
             return true
         }
     }

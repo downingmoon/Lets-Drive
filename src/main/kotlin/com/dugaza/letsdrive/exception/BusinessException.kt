@@ -4,6 +4,6 @@ import com.dugaza.letsdrive.converter.MessageConverter
 
 class BusinessException(
     val errorCode: ErrorCode,
-    args: Array<Any?>? = null,
+    vararg args: Any?,
     messageConverter: MessageConverter = MessageConverter(),
-) : RuntimeException(messageConverter.getMessage(errorCode.code, args))
+) : RuntimeException(messageConverter.getMessage(errorCode.code, *args))

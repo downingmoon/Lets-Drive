@@ -18,7 +18,7 @@ class MessageConverter {
 
     fun getMessage(
         code: String,
-        args: Array<Any?>?,
+        vararg args: Any?,
     ): String {
         return try {
             messageSource.getMessage(code, args, locale)
