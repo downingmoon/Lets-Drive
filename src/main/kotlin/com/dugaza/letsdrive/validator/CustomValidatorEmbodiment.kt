@@ -22,7 +22,7 @@ class CustomValidatorEmbodiment {
         }
     }
 
-    class NotNullValidator : ConstraintValidator<CustomValidator.NotNull, String> {
+    class NotNullValidator : ConstraintValidator<CustomValidator.NotNull, Any> {
         private val log = logger()
 
         private lateinit var errorCode: ErrorCode
@@ -33,7 +33,7 @@ class CustomValidatorEmbodiment {
         }
 
         override fun isValid(
-            p0: String?,
+            p0: Any?,
             p1: ConstraintValidatorContext?,
         ): Boolean {
             log.debug("Not null validation, p0: {}", p0)

@@ -7,6 +7,7 @@ import jakarta.validation.ValidationException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.test.context.ActiveProfiles
+import java.util.UUID
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -112,5 +113,22 @@ class CustomValidatorTest : ValidatorTestBase() {
         assertTrue(t is BusinessException)
         assertEquals("range 파라미터의 범위는 1 ~ 10 사이로 지정 가능합니다.", ex.cause!!.message)
         assertEquals(ErrorCode.DEFAULT_RANGE_MESSAGE, t.errorCode)
+    }
+
+    @Test
+    fun `Custom UUID NotNull Success`() {
+        val vo = ValidationTestVo("", "this is a test", "abc", 10, 255, 10, UUID.randomUUID())
+        val violations: Set<ConstraintViolation<ValidationTestVo>> = validator.validate(vo)
+        assertEquals(0, violations.size)
+    }
+
+    @Test
+    fun `Custom UUID NotNull Fail`() {
+        val vo = ValidationTestVo(null, "this is a test", "abc", 10, 255, 10, null)
+        val ex = assertThrows<ValidationException> { validator.validate(vo) }
+        val t = ex.cause
+        assertTrue(t is BusinessException)
+        assertEquals("필수 파라미터가 없습니다.", ex.cause!!.message)
+        assertEquals(ErrorCode.DEFAULT_NOT_NULL_MESSAGE, t.errorCode)
     }
 }
