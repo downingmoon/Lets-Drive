@@ -19,7 +19,12 @@ class SecurityConfig(
             .authorizeHttpRequests { authorize ->
                 authorize
                     .requestMatchers("/", "/api/auth/users/login", "/error").permitAll()
-                    .requestMatchers("/api/users/random-nickname", "/api/files/default-profile-image").hasAnyRole("USER", "UNVERIFIED_USER")
+                    .requestMatchers(
+                        "/api/users/random-nickname",
+                        "/api/files/default-profile-image",
+                        "/api/users/change-email",
+                        "/api/mail/verify-email",
+                    ).hasAnyRole("USER", "UNVERIFIED_USER")
                     .requestMatchers("/api/admin/**").hasRole("ADMIN")
                     .anyRequest().hasRole("USER")
             }

@@ -24,7 +24,7 @@ import java.time.LocalDateTime
 )
 class User(
     @Column(nullable = true, unique = true)
-    val email: String? = null,
+    var email: String? = null,
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     val provider: AuthProvider,
@@ -58,6 +58,10 @@ class User(
         profileImage = fileMaster
     }
 
+    fun changeEmail(newEmail: String) {
+        email = newEmail
+    }
+
     fun addRole(role: Role) {
         roles.add(
             UserRole(
@@ -67,9 +71,14 @@ class User(
         )
     }
 
-    fun removeRole(userRole: UserRole) {
+    fun removeRole(role: Role) {
+        val userRole = roles.find { it.role == role } ?: return
         roles.remove(userRole)
         userRole.delete()
+    }
+
+    fun existsRole(role: Role): Boolean {
+        return roles.any { it.role == role }
     }
 
     fun toDormant() {

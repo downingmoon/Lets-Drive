@@ -14,4 +14,6 @@ interface UserRepository : JpaRepository<User, UUID>, UserCustomRepository {
         provider: AuthProvider,
         providerId: String,
     ): User?
+
+    fun existsByEmail(email: String): Boolean
 }

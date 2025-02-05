@@ -20,6 +20,7 @@ enum class ErrorCode(
     // User Error
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "USER_001"),
     UNSUPPORTED_AUTH_PROVIDER(HttpStatus.BAD_REQUEST, "USER_002"),
+    EMAIL_DUPLICATION(HttpStatus.BAD_REQUEST, "USER_003"),
 
     // System Error
     INVALID_ERROR_CODE(HttpStatus.BAD_REQUEST, "SYSTEM_001"),

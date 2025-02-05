@@ -1,6 +1,7 @@
 package com.dugaza.letsdrive.service.user
 
 import com.dugaza.letsdrive.entity.user.AuthProvider
+import com.dugaza.letsdrive.entity.user.CustomOAuth2User
 import com.dugaza.letsdrive.entity.user.Role
 import com.dugaza.letsdrive.exception.BusinessException
 import com.dugaza.letsdrive.exception.ErrorCode
@@ -15,7 +16,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User
 import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -51,15 +51,17 @@ class CustomOAuth2UserService(
 
         val providerId = extractUserInfo(provider, attributes)
 
-        try {
-            authService.login(provider, providerId)
-        } catch (e: BusinessException) {
-            authService.signup(provider, providerId)
-        }
+        val user =
+            try {
+                authService.login(provider, providerId)
+            } catch (e: BusinessException) {
+                authService.signup(provider, providerId)
+            }
 
         val authorities = listOf(SimpleGrantedAuthority("ROLE_${Role.UNVERIFIED_USER}"))
 
-        return DefaultOAuth2User(
+        return CustomOAuth2User(
+            user.id!!,
             authorities,
             attributes,
             userNameAttributeName,
