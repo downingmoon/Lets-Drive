@@ -1,5 +1,6 @@
 package com.dugaza.letsdrive.controller
 
+import com.dugaza.letsdrive.config.FileProperties
 import com.dugaza.letsdrive.dto.file.FileDetailDto
 import com.dugaza.letsdrive.dto.file.UploadResponse
 import com.dugaza.letsdrive.exception.BusinessException
@@ -62,5 +63,10 @@ class FileController(
             .contentType(mimeType)
             .contentLength(contentLength)
             .body(resource)
+    }
+
+    @GetMapping("/default-profile-image")
+    fun getDefaultProfileImage(): ResponseEntity<ByteArrayResource> {
+        return downloadFile(FileProperties().defaultImageDetailId, "inline")
     }
 }
