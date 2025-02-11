@@ -11,12 +11,13 @@ import org.thymeleaf.context.Context
 import org.thymeleaf.templatemode.TemplateMode
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver
 import java.util.UUID
+import java.util.concurrent.TimeUnit
 
 @Service
 class MailService(
     @Value("\${spring.mail.properties.sender.email}")
     private val senderEmail: String,
-    @Value("\${spring.data.redis.duration}")
+    @Value("\${spring.data.redis.email-token-duration}")
     private val duration: Long,
     private val mailSender: JavaMailSender,
     private val redisUtil: RedisUtil,
@@ -48,7 +49,7 @@ class MailService(
     ): MimeMessage {
         val token = UUID.randomUUID().toString()
         val dataMap = mapOf("userId" to userId, "toEmail" to toEmail)
-        redisUtil.setHashValueExpire(token, dataMap, duration)
+        redisUtil.setHashValueExpire(token, dataMap, duration, TimeUnit.MINUTES)
 
         val subject = "안녕하세요, $nickname 님! Let's Drive 이메일 인증을 완료해주세요."
         val htmlContent = setContext(nickname, "http://localhost:8080/api/mail/verify-email?token=$token")

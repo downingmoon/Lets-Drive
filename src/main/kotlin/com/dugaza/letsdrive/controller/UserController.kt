@@ -2,6 +2,7 @@ package com.dugaza.letsdrive.controller
 
 import com.dugaza.letsdrive.dto.user.RandomNicknameResponse
 import com.dugaza.letsdrive.entity.user.CustomOAuth2User
+import com.dugaza.letsdrive.extensions.userId
 import com.dugaza.letsdrive.service.user.UserService
 import com.dugaza.letsdrive.util.generateRandomNickname
 import com.dugaza.letsdrive.vo.user.ChangeEmail
@@ -32,7 +33,7 @@ class UserController(
         @RequestBody
         req: ChangeEmail,
     ): ResponseEntity<Void> {
-        userService.changeEmail(user.getUserId(), req.email)
+        userService.changeEmail(user.userId, req.email)
         return ResponseEntity.accepted().build()
     }
 }

@@ -34,6 +34,10 @@ enum class ErrorCode(
     DEFAULT_MAX_MESSAGE(HttpStatus.BAD_REQUEST, "VALID_006"),
     DEFAULT_RANGE_MESSAGE(HttpStatus.BAD_REQUEST, "VALID_007"),
 
+    // Auth Error
+    INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH_001"),
+    INVALID_DEVICE_ID(HttpStatus.BAD_REQUEST, "AUTH_002"),
+
     // For test
     FOO(HttpStatus.INTERNAL_SERVER_ERROR, "FOO_001"),
 }

@@ -20,7 +20,9 @@ spring:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
       password: ${REDIS_PASS}
-      duration: 300
+      email-token-duration: 5
+      access-token-duration: 1
+      refresh-token-duration: 30
   servlet:
     multipart:
       max-file-size: 100MB

@@ -15,5 +15,8 @@ interface UserRepository : JpaRepository<User, UUID>, UserCustomRepository {
         providerId: String,
     ): User?
 
+    @EntityGraph(attributePaths = ["roles"])
+    fun findUserById(id: UUID): User?
+
     fun existsByEmail(email: String): Boolean
 }

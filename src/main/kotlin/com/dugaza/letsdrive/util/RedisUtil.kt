@@ -2,7 +2,7 @@ package com.dugaza.letsdrive.util
 
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.stereotype.Service
-import java.time.Duration
+import java.util.concurrent.TimeUnit
 
 @Service
 class RedisUtil(
@@ -12,8 +12,9 @@ class RedisUtil(
         key: String,
         value: String,
         duration: Long,
+        unit: TimeUnit = TimeUnit.SECONDS,
     ) {
-        template.opsForValue().set(key, value, duration)
+        template.opsForValue().set(key, value, duration, unit)
     }
 
     fun getValue(key: String): String? {
@@ -24,9 +25,10 @@ class RedisUtil(
         key: String,
         dataMap: Map<String, String>,
         duration: Long,
+        unit: TimeUnit = TimeUnit.SECONDS,
     ) {
         template.opsForHash<String, String>().putAll(key, dataMap)
-        template.expire(key, Duration.ofSeconds(duration))
+        template.expire(key, duration, unit)
     }
 
     fun getHashValue(
@@ -35,6 +37,24 @@ class RedisUtil(
     ): Map<String, String>? {
         return hashKeys.zip(template.opsForHash<String, String>().multiGet(key, hashKeys.toList()))
             .toMap()
+    }
+
+    fun addSet(
+        key: String,
+        value: String,
+    ) {
+        template.opsForSet().add(key, value)
+    }
+
+    fun getSet(key: String): Set<String>? {
+        return template.opsForSet().members(key)
+    }
+
+    fun removeSetMember(
+        key: String,
+        value: String,
+    ) {
+        template.opsForSet().remove(key, value)
     }
 
     fun delete(key: String) {

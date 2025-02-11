@@ -61,9 +61,8 @@ class CustomOAuth2UserService(
         val authorities = listOf(SimpleGrantedAuthority("ROLE_${Role.UNVERIFIED_USER}"))
 
         return CustomOAuth2User(
-            user.id!!,
             authorities,
-            attributes,
+            attributes + mapOf("userId" to user.id!!),
             userNameAttributeName,
         )
     }
