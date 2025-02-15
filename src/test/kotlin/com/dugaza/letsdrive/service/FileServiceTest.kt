@@ -13,7 +13,10 @@ import com.dugaza.letsdrive.service.user.UserService
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertArrayEquals
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -29,7 +32,6 @@ import java.util.UUID
 import javax.imageio.ImageIO
 
 class FileServiceTest {
-
     @TempDir
     lateinit var tempDir: Path
 
@@ -52,32 +54,48 @@ class FileServiceTest {
     }
 
     // --- 헬퍼 함수 ---
+
     /**
      * 지정된 확장자(format)를 사용하여 [width] x [height] 크기의 유효한 이미지를 생성.
      */
-    private fun createValidImage(width: Int, height: Int, color: Color, format: String): ByteArray {
-        val bufferedImage = BufferedImage(width, height, BufferedImage.TYPE_INT_RGB).apply {
-            createGraphics().apply {
-                this.color = color
-                fillRect(0, 0, width, height)
-                dispose()
+    private fun createValidImage(
+        width: Int,
+        height: Int,
+        color: Color,
+        format: String,
+    ): ByteArray {
+        val bufferedImage =
+            BufferedImage(width, height, BufferedImage.TYPE_INT_RGB).apply {
+                createGraphics().apply {
+                    this.color = color
+                    fillRect(0, 0, width, height)
+                    dispose()
+                }
             }
-        }
         val baos = ByteArrayOutputStream()
         ImageIO.write(bufferedImage, format, baos)
         return baos.toByteArray()
     }
 
-    private fun createValidJpgImage(width: Int, height: Int, color: Color): ByteArray =
-        createValidImage(width, height, color, "jpg")
+    private fun createValidJpgImage(
+        width: Int,
+        height: Int,
+        color: Color,
+    ): ByteArray = createValidImage(width, height, color, "jpg")
 
-    private fun createValidBmpImage(width: Int, height: Int, color: Color): ByteArray =
-        createValidImage(width, height, color, "bmp")
+    private fun createValidBmpImage(
+        width: Int,
+        height: Int,
+        color: Color,
+    ): ByteArray = createValidImage(width, height, color, "bmp")
 
     /**
      * [BaseEntity]를 상속하는 엔티티의 private id 필드에 [id]를 할당.
      */
-    private fun setEntityId(entity: BaseEntity, id: UUID) {
+    private fun setEntityId(
+        entity: BaseEntity,
+        id: UUID,
+    ) {
         val idField = BaseEntity::class.java.getDeclaredField("id")
         idField.isAccessible = true
         idField.set(entity, id)
@@ -99,11 +117,12 @@ class FileServiceTest {
         every { fileMasterRepository.save(any<FileMaster>()) } returns fileMaster
 
         val jpgBytes = createValidJpgImage(100, 100, Color.RED)
-        val multipartFile = mockk<MultipartFile>(relaxed = true).apply {
-            every { originalFilename } returns "test.jpg"
-            every { contentType } returns "image/jpeg"
-            every { bytes } returns jpgBytes
-        }
+        val multipartFile =
+            mockk<MultipartFile>(relaxed = true).apply {
+                every { originalFilename } returns "test.jpg"
+                every { contentType } returns "image/jpeg"
+                every { bytes } returns jpgBytes
+            }
 
         every { fileDetailRepository.findByFileHash(any()) } returns null
         every { fileDetailRepository.saveAll(any<List<FileDetail>>()) } answers { firstArg() }
@@ -143,11 +162,12 @@ class FileServiceTest {
         maxSizeField.set(fileService, 10L)
 
         val bmpBytes = createValidBmpImage(1000, 1000, Color.RED)
-        val multipartFile = mockk<MultipartFile>(relaxed = true).apply {
-            every { originalFilename } returns "test.bmp"
-            every { contentType } returns "image/bmp"
-            every { bytes } returns bmpBytes
-        }
+        val multipartFile =
+            mockk<MultipartFile>(relaxed = true).apply {
+                every { originalFilename } returns "test.bmp"
+                every { contentType } returns "image/bmp"
+                every { bytes } returns bmpBytes
+            }
 
         every { fileDetailRepository.findByFileHash(any()) } returns null
         every { fileDetailRepository.saveAll(any<List<FileDetail>>()) } answers { firstArg() }
@@ -178,15 +198,17 @@ class FileServiceTest {
         val fileMaster = FileMaster(dummyUser)
         every { fileMasterRepository.save(any<FileMaster>()) } returns fileMaster
 
-        val multipartFile = mockk<MultipartFile>(relaxed = true).apply {
-            every { originalFilename } returns "test.txt"
-            every { contentType } returns "text/plain"
-            every { bytes } returns "test".toByteArray()
-        }
+        val multipartFile =
+            mockk<MultipartFile>(relaxed = true).apply {
+                every { originalFilename } returns "test.txt"
+                every { contentType } returns "text/plain"
+                every { bytes } returns "test".toByteArray()
+            }
 
-        val exception = assertThrows<BusinessException> {
-            fileService.uploadFile(userId, listOf(multipartFile))
-        }
+        val exception =
+            assertThrows<BusinessException> {
+                fileService.uploadFile(userId, listOf(multipartFile))
+            }
         assertEquals(ErrorCode.INVALID_EXTENSION, exception.errorCode)
     }
 
@@ -199,44 +221,48 @@ class FileServiceTest {
         val fileMaster = FileMaster(dummyUser)
         every { fileMasterRepository.save(any<FileMaster>()) } returns fileMaster
 
-        val multipartFile = mockk<MultipartFile>(relaxed = true).apply {
-            every { originalFilename } returns "test.jpg"
-            every { contentType } returns "image/jpeg"
-            every { bytes } returns "test".toByteArray() // 올바른 이미지 데이터가 아님
-        }
+        val multipartFile =
+            mockk<MultipartFile>(relaxed = true).apply {
+                every { originalFilename } returns "test.jpg"
+                every { contentType } returns "image/jpeg"
+                every { bytes } returns "test".toByteArray() // 올바른 이미지 데이터가 아님
+            }
 
         every { fileDetailRepository.findByFileHash(any()) } returns null
 
-        val exception = assertThrows<BusinessException> {
-            fileService.uploadFile(userId, listOf(multipartFile))
-        }
+        val exception =
+            assertThrows<BusinessException> {
+                fileService.uploadFile(userId, listOf(multipartFile))
+            }
         assertEquals(ErrorCode.INVALID_IMAGE_DATA, exception.errorCode)
     }
 
     // --- 테스트: downloadFile ---
     @Test
     fun `downloadFile은 압축해제 실패 시 예외를 던져야한다`() {
-        val dummyDetail = FileDetail(
-            fileMaster = FileMaster(dummyUser()),
-            originalName = "test.jpg",
-            storedName = "test.zip",
-            storedPath = tempDir.resolve("test.zip").toString(),
-            originalSize = 100,
-            storedSize = 50,
-            originalExtension = "jpg",
-            storedExtension = "zip",
-            mimeType = "image/jpeg",
-            fileHash = "test",
-            compressed = true
-        )
+        val dummyDetail =
+            FileDetail(
+                fileMaster = FileMaster(dummyUser()),
+                originalName = "test.jpg",
+                storedName = "test.zip",
+                storedPath = tempDir.resolve("test.zip").toString(),
+                originalSize = 100,
+                storedSize = 50,
+                originalExtension = "jpg",
+                storedExtension = "zip",
+                mimeType = "image/jpeg",
+                fileHash = "test",
+                compressed = true,
+            )
         val generatedId = UUID.randomUUID()
         setEntityId(dummyDetail, generatedId)
         every { fileDetailRepository.findById(generatedId) } returns Optional.of(dummyDetail)
         Files.write(tempDir.resolve("test.zip"), "invalid zip content".toByteArray())
 
-        val exception = assertThrows<BusinessException> {
-            fileService.downloadFile(generatedId)
-        }
+        val exception =
+            assertThrows<BusinessException> {
+                fileService.downloadFile(generatedId)
+            }
         assertEquals(ErrorCode.FILE_DECOMPRESSION_FAILED, exception.errorCode)
     }
 
@@ -245,9 +271,10 @@ class FileServiceTest {
         val nonExistentId = UUID.randomUUID()
         every { fileDetailRepository.findById(nonExistentId) } returns Optional.empty()
 
-        val exception = assertThrows<BusinessException> {
-            fileService.getFileDetail(nonExistentId)
-        }
+        val exception =
+            assertThrows<BusinessException> {
+                fileService.getFileDetail(nonExistentId)
+            }
         assertEquals(ErrorCode.NOT_FOUND_FILE_DETAIL, exception.errorCode)
     }
 
@@ -261,9 +288,10 @@ class FileServiceTest {
         every { fileDetailRepository.findById(defaultImageDetailId) } returns Optional.empty()
         val userId = UUID.randomUUID()
 
-        val exception = assertThrows<BusinessException> {
-            fileService.getDefaultImage(userId)
-        }
+        val exception =
+            assertThrows<BusinessException> {
+                fileService.getDefaultImage(userId)
+            }
         assertEquals(ErrorCode.NOT_FOUND_FILE_DETAIL, exception.errorCode)
     }
 
@@ -273,19 +301,20 @@ class FileServiceTest {
         defaultImageDetailIdField.isAccessible = true
         val defaultImageDetailId = defaultImageDetailIdField.get(fileService) as UUID
 
-        val defaultDetail = FileDetail(
-            fileMaster = FileMaster(dummyUser()),
-            originalName = "default.jpg",
-            storedName = "default.jpg",
-            storedPath = tempDir.resolve("default.jpg").toString(),
-            originalSize = 100,
-            storedSize = 100,
-            originalExtension = "jpg",
-            storedExtension = "jpg",
-            mimeType = "image/jpeg",
-            fileHash = "default",
-            compressed = false
-        )
+        val defaultDetail =
+            FileDetail(
+                fileMaster = FileMaster(dummyUser()),
+                originalName = "default.jpg",
+                storedName = "default.jpg",
+                storedPath = tempDir.resolve("default.jpg").toString(),
+                originalSize = 100,
+                storedSize = 100,
+                originalExtension = "jpg",
+                storedExtension = "jpg",
+                mimeType = "image/jpeg",
+                fileHash = "default",
+                compressed = false,
+            )
         setEntityId(defaultDetail, UUID.randomUUID())
         every { fileDetailRepository.findById(defaultImageDetailId) } returns Optional.of(defaultDetail)
         every { fileMasterRepository.save(any<FileMaster>()) } answers { firstArg() }
@@ -295,9 +324,11 @@ class FileServiceTest {
 
         val fileMasterResult = fileService.getDefaultImage(UUID.randomUUID())
         verify {
-            fileDetailRepository.save(match {
-                it.storedName == defaultDetail.storedName && it.originalName == defaultDetail.originalName
-            })
+            fileDetailRepository.save(
+                match {
+                    it.storedName == defaultDetail.storedName && it.originalName == defaultDetail.originalName
+                },
+            )
         }
         assertNotNull(fileMasterResult)
     }
@@ -313,25 +344,27 @@ class FileServiceTest {
         every { fileMasterRepository.save(any<FileMaster>()) } returns fileMaster
 
         val jpgBytes = createValidJpgImage(100, 100, Color.RED)
-        val multipartFile = mockk<MultipartFile>(relaxed = true).apply {
-            every { originalFilename } returns "duplicate.jpg"
-            every { contentType } returns "image/jpeg"
-            every { bytes } returns jpgBytes
-        }
+        val multipartFile =
+            mockk<MultipartFile>(relaxed = true).apply {
+                every { originalFilename } returns "duplicate.jpg"
+                every { contentType } returns "image/jpeg"
+                every { bytes } returns jpgBytes
+            }
 
-        val existingDetail = FileDetail(
-            fileMaster = fileMaster,
-            originalName = "existing.jpg",
-            storedName = "existing_path.jpg",
-            storedPath = tempDir.resolve("existing_path.jpg").toString(),
-            originalSize = jpgBytes.size.toLong(),
-            storedSize = jpgBytes.size.toLong(),
-            originalExtension = "jpg",
-            storedExtension = "jpg",
-            mimeType = "image/jpeg",
-            fileHash = "duplicate",
-            compressed = false
-        )
+        val existingDetail =
+            FileDetail(
+                fileMaster = fileMaster,
+                originalName = "existing.jpg",
+                storedName = "existing_path.jpg",
+                storedPath = tempDir.resolve("existing_path.jpg").toString(),
+                originalSize = jpgBytes.size.toLong(),
+                storedSize = jpgBytes.size.toLong(),
+                originalExtension = "jpg",
+                storedExtension = "jpg",
+                mimeType = "image/jpeg",
+                fileHash = "duplicate",
+                compressed = false,
+            )
         setEntityId(existingDetail, UUID.randomUUID())
 
         every { fileDetailRepository.findByFileHash(any()) } returns existingDetail

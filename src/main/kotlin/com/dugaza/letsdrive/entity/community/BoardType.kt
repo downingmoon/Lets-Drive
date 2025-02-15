@@ -5,5 +5,5 @@ enum class BoardType {
     FREE,
     NOTICE,
     QNA,
-    REVIEW
+    REVIEW,
 }

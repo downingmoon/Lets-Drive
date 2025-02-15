@@ -3,7 +3,6 @@ package com.dugaza.letsdrive.validator
 import jakarta.validation.ConstraintViolation
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.springframework.test.context.ActiveProfiles
 
 class EnumValidatorTest : ValidatorTestBase() {
     @Test

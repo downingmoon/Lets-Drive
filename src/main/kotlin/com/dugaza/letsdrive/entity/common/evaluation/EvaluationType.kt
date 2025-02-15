@@ -5,5 +5,5 @@ enum class EvaluationType {
     SELF,
     PEER,
     MANAGER,
-    CUSTOM
+    CUSTOM,
 }

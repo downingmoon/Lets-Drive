@@ -31,16 +31,18 @@ class BaseIntegrationTest {
 
     companion object {
         @Container
-        val mysqlContainer: MySQLContainer<*> = MySQLContainer("mysql:9.2.0").apply {
-            withDatabaseName("letsdrive")
-            withUsername("letsdrive")
-            withPassword("letsdrive")
-        }
+        val mysqlContainer: MySQLContainer<*> =
+            MySQLContainer("mysql:9.2.0").apply {
+                withDatabaseName("letsdrive")
+                withUsername("letsdrive")
+                withPassword("letsdrive")
+            }
 
         @Container
-        val redisContainer: GenericContainer<*> = GenericContainer("redis:7.0").apply {
-            withExposedPorts(6379)
-        }
+        val redisContainer: GenericContainer<*> =
+            GenericContainer("redis:7.0").apply {
+                withExposedPorts(6379)
+            }
 
         @JvmStatic
         @DynamicPropertySource
