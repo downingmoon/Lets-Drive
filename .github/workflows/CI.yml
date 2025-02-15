@@ -36,9 +36,6 @@ jobs:
             ${{ runner.os }}-gradle-
 
       # flyway 도입 ?
-      - name: Conditional Clean
-        if: contains(github.event.head_commit.message, 'force clean')
-        run: ./gradlew clean
 
       - name: Run ktlint
         run: ./gradlew ktlintCheck
