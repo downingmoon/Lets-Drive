@@ -10,7 +10,6 @@ import org.springframework.test.context.ActiveProfiles
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-@ActiveProfiles("test")
 class CustomValidatorTest : ValidatorTestBase() {
     @Test
     fun `Custom NotNull Success`() {

@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.test.context.ActiveProfiles
 
-@ActiveProfiles("test")
 class EnumValidatorTest : ValidatorTestBase() {
     @Test
     fun `should pass when status is valid and case matches`() {
