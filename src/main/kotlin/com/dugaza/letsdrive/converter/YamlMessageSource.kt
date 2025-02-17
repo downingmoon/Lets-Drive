@@ -11,8 +11,7 @@ class YamlMessageSource : AbstractMessageSource() {
     private var messages: Map<String, Any> = emptyMap()
 
     init {
-        val locale = LocaleContextHolder.getLocale()
-        val resourceName = if (locale.language.isBlank()) "messages.yml" else "messages_$locale.yml"
+        val resourceName = "messages_${LocaleContextHolder.getLocale()}.yml"
         val resource = ClassPathResource("messages/$resourceName")
         messages = Yaml().load(resource.inputStream)
     }
