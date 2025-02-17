@@ -11,7 +11,6 @@ import java.util.UUID
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-@ActiveProfiles("test")
 class CustomValidatorTest : ValidatorTestBase() {
     @Test
     fun `Custom NotNull Success`() {
