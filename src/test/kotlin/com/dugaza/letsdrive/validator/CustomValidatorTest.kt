@@ -6,14 +6,13 @@ import jakarta.validation.ConstraintViolation
 import jakarta.validation.ValidationException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.util.UUID
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class CustomValidatorTest : ValidatorTestBase() {
     @Test
     fun `Custom NotNull Success`() {
-        val vo = ValidationTestVo("", "this is a test", "abc", 10, 255, 10)
+        val vo = ValidationTestVo(Any(), "this is a test", "abc", 10, 255, 10)
         val violations: Set<ConstraintViolation<ValidationTestVo>> = validator.validate(vo)
         assertEquals(0, violations.size)
     }
@@ -30,14 +29,14 @@ class CustomValidatorTest : ValidatorTestBase() {
 
     @Test
     fun `Custom NotBlank Success`() {
-        val vo = ValidationTestVo("", "this is a test", "abc", 10, 255, 10)
+        val vo = ValidationTestVo(Any(), "this is a test", "abc", 10, 255, 10)
         val violations: Set<ConstraintViolation<ValidationTestVo>> = validator.validate(vo)
         assertEquals(0, violations.size)
     }
 
     @Test
     fun `Custom NotBlank Fail`() {
-        val vo = ValidationTestVo("", "", "abc", 10, 255, 10)
+        val vo = ValidationTestVo(Any(), "", "abc", 10, 255, 10)
         val ex = assertThrows<ValidationException> { validator.validate(vo) }
         val t = ex.cause
         assertTrue(t is BusinessException)
@@ -47,14 +46,14 @@ class CustomValidatorTest : ValidatorTestBase() {
 
     @Test
     fun `Custom Size Success`() {
-        val vo = ValidationTestVo("", "this is a test", "abc", 10, 255, 10)
+        val vo = ValidationTestVo(Any(), "this is a test", "abc", 10, 255, 10)
         val violations: Set<ConstraintViolation<ValidationTestVo>> = validator.validate(vo)
         assertEquals(0, violations.size)
     }
 
     @Test
     fun `Custom Size Fail`() {
-        val vo = ValidationTestVo("", "this is a test", "abcdefghijklmnop", 10, 255, 10)
+        val vo = ValidationTestVo(Any(), "this is a test", "abcdefghijklmnop", 10, 255, 10)
         val ex = assertThrows<ValidationException> { validator.validate(vo) }
         val t = ex.cause
         assertTrue(t is BusinessException)
@@ -64,14 +63,14 @@ class CustomValidatorTest : ValidatorTestBase() {
 
     @Test
     fun `Custom Min Success`() {
-        val vo = ValidationTestVo("", "this is a test", "abc", 10, 255, 10)
+        val vo = ValidationTestVo(Any(), "this is a test", "abc", 10, 255, 10)
         val violations: Set<ConstraintViolation<ValidationTestVo>> = validator.validate(vo)
         assertEquals(0, violations.size)
     }
 
     @Test
     fun `Custom Min Fail`() {
-        val vo = ValidationTestVo("", "this is a test", "abc", 9, 255, 10)
+        val vo = ValidationTestVo(Any(), "this is a test", "abc", 9, 255, 10)
         val ex = assertThrows<ValidationException> { validator.validate(vo) }
         val t = ex.cause
         assertTrue(t is BusinessException)
@@ -81,14 +80,14 @@ class CustomValidatorTest : ValidatorTestBase() {
 
     @Test
     fun `Custom Max Success`() {
-        val vo = ValidationTestVo("", "this is a test", "abc", 10, 255, 10)
+        val vo = ValidationTestVo(Any(), "this is a test", "abc", 10, 255, 10)
         val violations: Set<ConstraintViolation<ValidationTestVo>> = validator.validate(vo)
         assertEquals(0, violations.size)
     }
 
     @Test
     fun `Custom Max Fail`() {
-        val vo = ValidationTestVo("", "this is a test", "abc", 10, 2555, 10)
+        val vo = ValidationTestVo(Any(), "this is a test", "abc", 10, 2555, 10)
         val ex = assertThrows<ValidationException> { validator.validate(vo) }
         val t = ex.cause
         assertTrue(t is BusinessException)
@@ -98,35 +97,18 @@ class CustomValidatorTest : ValidatorTestBase() {
 
     @Test
     fun `Custom Range Success`() {
-        val vo = ValidationTestVo("", "this is a test", "abc", 10, 255, 10)
+        val vo = ValidationTestVo(Any(), "this is a test", "abc", 10, 255, 10)
         val violations: Set<ConstraintViolation<ValidationTestVo>> = validator.validate(vo)
         assertEquals(0, violations.size)
     }
 
     @Test
     fun `Custom Range Fail`() {
-        val vo = ValidationTestVo("", "this is a test", "abc", 10, 255, 15)
+        val vo = ValidationTestVo(Any(), "this is a test", "abc", 10, 255, 15)
         val ex = assertThrows<ValidationException> { validator.validate(vo) }
         val t = ex.cause
         assertTrue(t is BusinessException)
         assertEquals("range 파라미터의 범위는 1 ~ 10 사이로 지정 가능합니다.", ex.cause!!.message)
         assertEquals(ErrorCode.DEFAULT_RANGE_MESSAGE, t.errorCode)
-    }
-
-    @Test
-    fun `Custom UUID NotNull Success`() {
-        val vo = ValidationTestVo("", "this is a test", "abc", 10, 255, 10, UUID.randomUUID())
-        val violations: Set<ConstraintViolation<ValidationTestVo>> = validator.validate(vo)
-        assertEquals(0, violations.size)
-    }
-
-    @Test
-    fun `Custom UUID NotNull Fail`() {
-        val vo = ValidationTestVo(null, "this is a test", "abc", 10, 255, 10, null)
-        val ex = assertThrows<ValidationException> { validator.validate(vo) }
-        val t = ex.cause
-        assertTrue(t is BusinessException)
-        assertEquals("필수 파라미터가 없습니다.", ex.cause!!.message)
-        assertEquals(ErrorCode.DEFAULT_NOT_NULL_MESSAGE, t.errorCode)
     }
 }

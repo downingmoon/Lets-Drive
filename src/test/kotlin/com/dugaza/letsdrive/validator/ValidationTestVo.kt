@@ -1,11 +1,10 @@
 package com.dugaza.letsdrive.validator
 
 import com.dugaza.letsdrive.exception.ErrorCode
-import java.util.UUID
 
 class ValidationTestVo(
     @field:CustomValidator.NotNull(ErrorCode.DEFAULT_NOT_NULL_MESSAGE)
-    private val notNull: String?,
+    private val notNull: Any?,
     @field:CustomValidator.NotBlank(ErrorCode.DEFAULT_NOT_BLANK_MESSAGE)
     private val notBlank: String,
     @field:CustomValidator.Size(1, 10, ErrorCode.DEFAULT_SIZE_MESSAGE)
@@ -16,6 +15,4 @@ class ValidationTestVo(
     private val max: Int,
     @field:CustomValidator.Range(1, 10, ErrorCode.DEFAULT_RANGE_MESSAGE)
     private val range: Int,
-    @field:CustomValidator.NotNull(ErrorCode.DEFAULT_NOT_NULL_MESSAGE)
-    private val uuidNotNull: UUID? = null,
 )
