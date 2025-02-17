@@ -1,6 +1,5 @@
 package com.dugaza.letsdrive.converter
 
-import com.dugaza.letsdrive.logger
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.context.support.AbstractMessageSource
 import org.springframework.core.io.ClassPathResource
@@ -9,12 +8,11 @@ import java.text.MessageFormat
 import java.util.Locale
 
 class YamlMessageSource : AbstractMessageSource() {
-    private val log = logger()
     private var messages: Map<String, Any> = emptyMap()
 
     init {
-        log.error("messages_${LocaleContextHolder.getLocale()}.yml")
-        val resourceName = "messages_${LocaleContextHolder.getLocale()}.yml"
+        val locale = LocaleContextHolder.getLocale()
+        val resourceName = if (locale.language.isBlank()) "messages.yml" else "messages_${locale}.yml"
         val resource = ClassPathResource("messages/$resourceName")
         messages = Yaml().load(resource.inputStream)
     }
