@@ -108,7 +108,7 @@ class FileServiceTest {
 
     // --- 테스트: uploadFile ---
     @Test
-    fun `uploadFile은 유효한 jpg 파일 업로드 시 FileMaster와 FileDetail을 생성한다`() {
+    fun `uploadFile should create FileMaster and FileDetail when a valid jpg file is uploaded`() {
         val userId = UUID.randomUUID()
         val dummyUser = dummyUser()
         every { userService.getUserById(userId) } returns dummyUser
@@ -148,7 +148,7 @@ class FileServiceTest {
     }
 
     @Test
-    fun `uploadFile은 사이즈 초과하는 bmp 파일은 압축하여 저장해야한다`() {
+    fun `uploadFile should compress bmp file if size exceeds maxSize`() {
         val userId = UUID.randomUUID()
         val dummyUser = dummyUser()
         every { userService.getUserById(userId) } returns dummyUser
@@ -190,7 +190,7 @@ class FileServiceTest {
     }
 
     @Test
-    fun `uploadFile은 지원하지 않는 확장자 업로드 시 예외를 던져야한다`() {
+    fun `uploadFile should throw an exception when uploading an unsupported extension`() {
         val userId = UUID.randomUUID()
         val dummyUser = dummyUser()
         every { userService.getUserById(userId) } returns dummyUser
@@ -213,7 +213,7 @@ class FileServiceTest {
     }
 
     @Test
-    fun `uploadFile은 유효하지 않은 이미지 데이터 업로드 시 예외를 던져야한다`() {
+    fun `uploadFile should throw an exception when uploading invalid image data`() {
         val userId = UUID.randomUUID()
         val dummyUser = dummyUser()
         every { userService.getUserById(userId) } returns dummyUser
@@ -239,7 +239,7 @@ class FileServiceTest {
 
     // --- 테스트: downloadFile ---
     @Test
-    fun `downloadFile은 압축해제 실패 시 예외를 던져야한다`() {
+    fun `downloadFile should throw an exception when decompression fails`() {
         val dummyDetail =
             FileDetail(
                 fileMaster = FileMaster(dummyUser()),
@@ -267,7 +267,7 @@ class FileServiceTest {
     }
 
     @Test
-    fun `getFileDetail은 존재하지 않는 파일 id 시 예외를 던져야한다`() {
+    fun `getFileDetail should thorw an exception when the file detail does not exist`() {
         val nonExistentId = UUID.randomUUID()
         every { fileDetailRepository.findById(nonExistentId) } returns Optional.empty()
 
@@ -280,7 +280,7 @@ class FileServiceTest {
 
     // --- 테스트: getDefaultImage ---
     @Test
-    fun `getDefaultImage은 기본 이미지가 없으면 예외를 던져야한다`() {
+    fun `getDefaultImage should throw an exception when default image detail does not exist`() {
         val defaultImageDetailIdField = FileService::class.java.getDeclaredField("defaultImageDetailId")
         defaultImageDetailIdField.isAccessible = true
         val defaultImageDetailId = defaultImageDetailIdField.get(fileService) as UUID
@@ -296,7 +296,7 @@ class FileServiceTest {
     }
 
     @Test
-    fun `getDefaultImage은 기본 이미지를 복제하여 FileDetail을 반환해야한다`() {
+    fun `getDefaultImage should create a copy of the default image and return a FileDetail`() {
         val defaultImageDetailIdField = FileService::class.java.getDeclaredField("defaultImageDetailId")
         defaultImageDetailIdField.isAccessible = true
         val defaultImageDetailId = defaultImageDetailIdField.get(fileService) as UUID
@@ -335,7 +335,7 @@ class FileServiceTest {
 
     // --- 테스트: 중복 파일 처리 ---
     @Test
-    fun `uploadFile은 같은 해시값의 파일에 대해 파일 저장 없이 detail만 생성해야한다`() {
+    fun `uploadFile should return new FileDetail and not store a file when a file with the same hash`() {
         val userId = UUID.randomUUID()
         val dummyUser = dummyUser()
         every { userService.getUserById(userId) } returns dummyUser

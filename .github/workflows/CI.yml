@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-22.04
 
     env:
+      LANG: ko_KR.UTF-8
+      LC_ALL: ko_KR.UTF-8
       SPRING_PROFILES_ACTIVE: test
 
     steps:
